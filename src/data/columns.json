@@ -1,0 +1,21 @@
+[
+    {
+      "title": "name",
+      "dataIndex": "name",
+      "width": "30%",
+      "scopedSlots": { "customRender": "name" }
+    },
+    {
+      "title": "age",
+      "dataIndex": "age"
+    },
+    {
+      "title": "address",
+      "dataIndex": "address"
+    },
+    {
+      "title": "operation",
+      "dataIndex": "operation",
+      "scopedSlots": { "customRender": "operation" }
+    }
+  ]
