@@ -7,7 +7,7 @@
         <a-divider />
         <div>
             <a-space size="small"> 
-                <a-button @click="addUser()">Добавить пользователя</a-button>
+                <a-button class="editable-add-btn" @click="handleAdd">Добавить пользователя</a-button>
                 <a-button @click="currentUserEdit()">Изменить пользователя</a-button>
                 <a-button>Удалить пользователя</a-button>
             </a-space> 
@@ -30,6 +30,7 @@
     export default{
         data(){
             return{
+                count: 4,
                 dataSource: jobList,
                 columns:[
                     {
@@ -62,7 +63,18 @@
             onSelectChange(selectedRowKeys){
                 console.log('selectedRowKeys changed:', selectedRowKeys);
                 this.selectedRowKeys = selectedRowKeys;
-            }
+            },
+            handleAdd() {
+                const { count, dataSource } = this;
+                const newData = {
+                    key: count,
+                    id: count,
+                    Job: `${count}-ая должность`,
+                    JobDescription:"Описание",
+                };
+                this.dataSource = [...dataSource, newData];
+                this.count = count + 1;
+            },
         }
     }
 </script>
