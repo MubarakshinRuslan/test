@@ -4,17 +4,18 @@
       <div class="logo" />
     </a-layout-header>
     <a-layout-content style="padding: 0 50px">
-      <div :style="{ background: '#fff', padding: '24px', minHeight: '280px' }">
-        <a-button @click="enableTaskEdit=!enableTaskEdit">
-          <span v-if="enableTaskEdit">Перейти в редактор пользователей</span>
-          <span v-else>Перейти в редактор задач</span>
-        </a-button>
-        <div v-if="enableTaskEdit">
-          <app-task-manager></app-task-manager>
-        </div>
-        <div v-else>
-          <app-user-manager></app-user-manager>
-        </div>
+      <div>
+        <a-tabs default-active-key="3" @change="callback">
+          <a-tab-pane key="1" tab="Пользователи">
+            <app-user-manager />
+          </a-tab-pane>
+          <a-tab-pane key="2" tab="Должности" force-render>
+            <app-job-manager />
+          </a-tab-pane>
+          <a-tab-pane key="3" tab="Задачи">
+            <app-task-manager />
+          </a-tab-pane>
+        </a-tabs>
       </div>
     </a-layout-content>
     <a-layout-footer style="text-align: center">
@@ -25,17 +26,24 @@
 <script>
 import TaskManager from './TaskManager.vue'
 import UserManager from './UserManager.vue'
-  export default{
-  components: { 
-    appTaskManager: TaskManager,
-    appUserManager: UserManager
+import JobManager from './JobManager.vue'
+export default {
+  methods: {
+    callback(key) {
+      console.log(key);
+    },
   },
-    data(){
-      return{
-        enableTaskEdit: 'true',
-      }
+  components: {
+    appTaskManager: TaskManager,
+    appUserManager: UserManager,
+    appJobManager: JobManager
+  },
+  data() {
+    return {
+      enableTaskEdit: 'true',
     }
   }
+}
 </script>
 <style>
 #components-layout-demo-top .logo {

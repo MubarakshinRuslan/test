@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>
-            Редактор задач
+            Редактор должностей
         </h1>
     </div>
 </template>
@@ -10,3 +10,6 @@ export default {
 
 }
 </script>
+<style>
+
+</style>

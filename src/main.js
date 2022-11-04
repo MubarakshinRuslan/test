@@ -4,8 +4,10 @@ import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 import TaskManager from './TaskManager'
 import UserManager from './UserManager'
+import JobManager from './JobManager.vue'
 Vue.component('app-task-manager', TaskManager)
 Vue.component('app-user-manager', UserManager)
+Vue.component('app-job-manager', JobManager)
 
 Vue.use(Antd)
 
