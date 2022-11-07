@@ -1,21 +1,9 @@
 <template>
   <a-layout id="components-layout-demo-top" class="layout">
-    <a-layout-header>
-      <div class="logo" />
-    </a-layout-header>
+    <app-header-bar></app-header-bar>
     <a-layout-content style="padding: 0 50px">
       <div>
-        <a-tabs default-active-key="3" @change="callback">
-          <a-tab-pane key="1" tab="Пользователи">
-            <app-user-manager />
-          </a-tab-pane>
-          <a-tab-pane key="2" tab="Должности" force-render>
-            <app-job-manager />
-          </a-tab-pane>
-          <a-tab-pane key="3" tab="Задачи">
-            <app-task-manager />
-          </a-tab-pane>
-        </a-tabs>
+        <router-view/>
       </div>
     </a-layout-content>
     <a-layout-footer style="text-align: center">
@@ -24,26 +12,24 @@
   </a-layout>
 </template>
 <script>
-import TaskManager from './TaskManager.vue'
-import UserManager from './UserManager.vue'
-import JobManager from './JobManager.vue'
-export default {
-  methods: {
-    callback(key) {
-      console.log(key);
+import Vue from 'vue'
+import HeaderBar from '@/components/HeaderBar.vue'
+Vue.component('app-header-bar', HeaderBar)
+  export default{
+    data(){
+      {
+        HeaderBar
+      }
+      return{
+        enableTaskEdit: 'true',
+      }
     },
-  },
-  components: {
-    appTaskManager: TaskManager,
-    appUserManager: UserManager,
-    appJobManager: JobManager
-  },
-  data() {
-    return {
-      enableTaskEdit: 'true',
-    }
+    methods:{
+      callback(key){
+        console.log(key);
+      },
+    }      
   }
-}
 </script>
 <style>
 #components-layout-demo-top .logo {
