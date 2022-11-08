@@ -52,11 +52,8 @@
                   ]"
                   placeholder="Выберите исполнителя"
                 >
-                  <a-select-option value="xiao">
-                    Xiaoxiao Fu
-                  </a-select-option>
-                  <a-select-option value="mao">
-                    Maomao Zhou
+                  <a-select-option v-for="i in this.$store.getters.JOBS" :key="i.job">
+                    {{i.job}}
                   </a-select-option>
                 </a-select>
               </a-form-item>

@@ -8,53 +8,31 @@
         :body-style="{ paddingBottom: '80px' }"
         @close="onClose"
       >
-        <a-form :form="form" layout="vertical" hide-required-mark>
+        <a-form layout="vertical" hide-required-mark>
           <a-row :gutter="16">
             <a-col :span="24">
               <a-form-model 
-              ref="ruleForm" 
-              :model="ruleForm" 
-              :rules="rules" 
-              v-bind="layout"
+              ref="user"
               >
                 <a-form-model-item 
                 has-feedback 
-                label="Password" 
-                prop="pass"
+                label="Должность" 
+                prop="job"
                 >
                   <a-input 
-                  v-model="ruleForm.pass" 
-                  type="password" 
+                  v-model="job" 
+                  type="text" 
                   autocomplete="off" 
                   />
                 </a-form-model-item>
                 <a-form-model-item 
                 has-feedback 
-                label="Confirm" 
-                prop="checkPass"
+                label="Описание" 
+                prop="notes"
                 >
                   <a-input 
-                  v-model="ruleForm.checkPass" 
-                  type="password" 
-                  autocomplete="off" 
+                  v-model="notes" 
                   />
-                </a-form-model-item>
-                <a-form-model-item 
-                has-feedback 
-                label="Age" 
-                prop="age"
-                >
-                  <a-input 
-                  v-model.number="ruleForm.age" 
-                  />
-                </a-form-model-item>
-                <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
-                  <a-button type="primary" @click="submitForm('ruleForm')">
-                    Submit
-                  </a-button>
-                  <a-button style="margin-left: 10px" @click="resetForm('ruleForm')">
-                    Reset
-                </a-button>
                 </a-form-model-item>
               </a-form-model>
             </a-col>
@@ -76,93 +54,42 @@
           <a-button :style="{ marginRight: '8px' }" @click="onClose">
             Отменить
           </a-button>
-          <a-button type="primary" @click="onClose">
-            Добавить сотрудника
+          <a-button type="primary" html-type="submit" @click="onSubmit" :disabled="this.job === ''">
+            Добавить должность
           </a-button>
         </div>
       </a-drawer>
     </div>
   </template>
-  <script>
+  
+<script>
+  import axios from 'axios'
   export default {
-    data() {
-      let checkPending;
-      let checkAge = (rule, value, callback) => {
-        clearTimeout(checkPending);
-      if (!value) {
-        return callback(new Error('Please input the age'));
-      }
-      checkPending = setTimeout(() => {
-        if (!Number.isInteger(value)) {
-          callback(new Error('Please input digits'));
-        } else {
-          if (value < 18) {
-            callback(new Error('Age must be greater than 18'));
-          } else {
-            callback();
-          }
-        }
-      }, 1000);
-    };
-    let validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('Please input the password'));
-      } else {
-        if (this.ruleForm.checkPass !== '') {
-          this.$refs.ruleForm.validateField('checkPass');
-        }
-        callback();
-      }
-    };
-    let validatePass2 = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('Please input the password again'));
-      } else if (value !== this.ruleForm.pass) {
-        callback(new Error("Two inputs don't match!"));
-      } else {
-        callback();
-      }
-    };
-      return {
-        form: this.$form.createForm(this),
-        visible: false,
-        ruleForm: {
-        pass: '',
-        checkPass: '',
-        age: '',
-        },
-        rules: {
-          pass: [{ validator: validatePass, trigger: 'change' }],
-          checkPass: [{ validator: validatePass2, trigger: 'change' }],
-          age: [{ validator: checkAge, trigger: 'change' }],
-        },
-        layout: {
-          labelCol: { span: 4 },
-          wrapperCol: { span: 14 },
-        }
-      };
-    },
     methods: {
-      submitForm(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          alert('submit!');
-        } else {
-          console.log('error submit!!');
-          return false;
-        }
-      });
-    },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-    },
       showDrawer() {
         this.visible = true;
       },
       onClose() {
         this.visible = false;
       },
+      onSubmit(){
+        const user = {
+          key:this.$store.getters.JOBS.length+1,
+          job:this.job,
+          notes:this.notes
+        }
+        axios.post('http://localhost:3200/jobs',user)
+        .then(res => {console.log(res);this.visible = false})
+        .catch(e => {console.error(e)})      
+      }
     },
-  };
-  </script>
+    data() {
+        return {
+          visible:false,
+          job:'',
+          notes:''
+        }
+      }
+    }
+</script>
   

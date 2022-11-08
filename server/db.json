@@ -1,150 +1,160 @@
 {
-    "jobs":[
-        {
-            "key":"1",
-            "id":"1",
-            "firstname":"Иван",
-            "lastname": "Иванов",
-            "patronym": "Иванович",
-            "job":"Инженер конструктор",
-            "notes":"Какой-то текст про данного человека."
-        },
-        {
-            "key":"2",
-            "id":"2",
-            "firstname":"second",
-            "lastname": "second",
-            "patronym":"----",
-            "job":"Сотрудник отдела кадров",
-            "notes": "second object"
-        }
-    ],
-    "jobCols":[
-        {
-            "title":"#",
-            "dataIndex": "key"
-        },
-        {
-            "title":"Идентификатор сотрудника",
-            "dataIndex":"id"
-        },
-        {
-            "title":"Должность",
-            "dataIndex":"job"
-        },
-        {
-            "title":"Фамилия",
-            "dataIndex":"lastname"
-        },
-        {
-            "title":"Имя",
-            "dataIndex":"firstname"
-        },
-        {
-            "title":"Отчество",
-            "dataIndex":"patronym"
-        },
-        {
-            "title":"Дополнительная информация",
-            "dataIndex":"notes"
-        }
-    ],
-    "auth":[
-        {
-            "email": "admin@mail.ru",
-            "password": "123456"
-        }
-    ],
-    "tasks":[
-        {
-            "key": "1",
-            "id": "1",
-            "name": "First task",
-            "startDate": "2022/01/01",
-            "endDate": "2022/02/01",
-            "user":"user1",
-            "isStarted": "true",
-            "tags": {
-                "isExpired": "false",
-                "isDificult": "true"
-            }
-        },
-        {
-            "key": "2",
-            "id": "1",
-            "name": "Second task",
-            "startDate": "2022/01/01",
-            "endDate": "2022/02/01",
-            "user":"user1",
-            "isStarted": "true",
-            "tags": {
-                "isExpired": "false",
-                "isDificult": "true"
-            }
-        }
-    ],
-    "tasksColumns": [
-        {
-            "title": "#",
-            "dataIndex": "key"
-        },
-        {
-            "title": "Название",
-            "dataIndex": "name"
-        },
-        {
-            "title": "Дата начала",
-            "dataIndex": "startDate"
-        },
-        {
-            "title": "Дата окончания",
-            "dataIndex": "endDate"
-        },
-        {
-            "title": "Исполнитель",
-            "dataIndex": "user"
-        },
-        {
-            "title": "Идентификатор задачи",
-            "dataIndex": "id"
-        }
-    ],
-    "jobList":[
-        {
-            "key":1,
-            "id": 1,
-            "Job": "Директор",
-            "JobDescription": "Глава компании."
-        },
-        {
-            "key":2,
-            "id": 2,
-            "Job": "Сотрудник отдела кадров",
-            "JobDescription": "Занимается поиском новых сотрудников компании."
-        },
-        {
-            "key":3,
-            "id": 3,
-            "Job": "Инженер конструктор",
-            "JobDescription": "Разрабатывает конструкторскую документацию."
-        }
-    ],
-    "jobListCols":[
-        {
-            "title": "#",
-            "dataIndex": "key"
-        },
-        {
-            "title": "Идентификатор должности",
-            "dataIndex": "id"
-        },
-        {
-            "title":"Должность",
-            "dataIndex":"Job"
-        },
-        {
-            "title":"Описание",
-            "dataIndex":"JobDescription"
-        }
-    ]
+  "jobs": [
+    {
+      "key": 1,
+      "job": "Самая первая должность",
+      "notes": "Новая должность",
+      "id": 1
+    },
+    {
+      "key": 2,
+      "job": "Вторая должность",
+      "notes": "Описание второй",
+      "id": 2
+    },
+    {
+      "key": 3,
+      "job": "Третья должность",
+      "notes": "Одна из первых",
+      "id": 3
+    },
+    {
+      "key": 4,
+      "job": "j",
+      "notes": "z",
+      "id": 4
+    },
+    {
+      "key": 5,
+      "job": "Ды",
+      "notes": "sdada",
+      "id": 5
+    }
+  ],
+  "jobCols": [
+    {
+      "id": "1",
+      "title": "#",
+      "dataIndex": "key"
+    },
+    {
+      "id": "2",
+      "title": "Должность",
+      "dataIndex": "job"
+    },
+    {
+      "id": "3",
+      "title": "Дополнительная информация",
+      "dataIndex": "notes"
+    }
+  ],
+  "auth": [
+    {
+      "id": "1",
+      "email": "admin@mail.ru",
+      "password": "123456"
+    }
+  ],
+  "tasks": [
+    {
+      "key": "1",
+      "id": "1",
+      "name": "First task",
+      "startDate": "2022/01/01",
+      "endDate": "2022/02/01",
+      "user": "user1",
+      "isStarted": "true",
+      "tags": {
+        "isExpired": "false",
+        "isDificult": "true"
+      }
+    },
+    {
+      "key": "2",
+      "id": "2",
+      "name": "Second task",
+      "startDate": "2022/01/01",
+      "endDate": "2022/02/01",
+      "user": "user1",
+      "isStarted": "true",
+      "tags": {
+        "isExpired": "false",
+        "isDificult": "true"
+      }
+    }
+  ],
+  "tasksColumns": [
+    {
+      "id": "1",
+      "title": "#",
+      "dataIndex": "key"
+    },
+    {
+      "id": "2",
+      "title": "Название",
+      "dataIndex": "name"
+    },
+    {
+      "id": "3",
+      "title": "Дата начала",
+      "dataIndex": "startDate"
+    },
+    {
+      "id": "4",
+      "title": "Дата окончания",
+      "dataIndex": "endDate"
+    },
+    {
+      "id": "5",
+      "title": "Исполнитель",
+      "dataIndex": "user"
+    },
+    {
+      "id": "6",
+      "title": "Идентификатор задачи",
+      "dataIndex": "id"
+    }
+  ],
+  "jobList": [
+    {
+      "key": 1,
+      "id": 1,
+      "Job": "Директор",
+      "JobDescription": "Глава компании."
+    },
+    {
+      "key": 2,
+      "id": 2,
+      "Job": "Сотрудник отдела кадров",
+      "JobDescription": "Занимается поиском новых сотрудников компании."
+    },
+    {
+      "key": 3,
+      "id": 3,
+      "Job": "Инженер конструктор",
+      "JobDescription": "Разрабатывает конструкторскую документацию."
+    }
+  ],
+  "jobListCols": [
+    {
+      "id": "1",
+      "title": "#",
+      "dataIndex": "key"
+    },
+    {
+      "id": "2",
+      "title": "Идентификатор должности",
+      "dataIndex": "id"
+    },
+    {
+      "id": "3",
+      "title": "Должность",
+      "dataIndex": "Job"
+    },
+    {
+      "id": "4",
+      "title": "Описание",
+      "dataIndex": "JobDescription"
+    }
+  ]
 }
