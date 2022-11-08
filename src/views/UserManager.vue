@@ -7,8 +7,8 @@
         <a-divider />
         <div>
             <a-space size="small"> 
-                <a-button class="editable-add-btn" type="primary" @click="handleAdd"><a-icon type="plus"/>Добавить пользователя</a-button>
-                <a-button @click="currentUserEdit()">Изменить пользователя</a-button>
+                <app-new-user-drawer/>
+                <a-button >Изменить пользователя</a-button>
                 <a-button>Удалить пользователя</a-button>
             </a-space> 
         </div>
@@ -17,8 +17,8 @@
             Таблица
             <a-table
              bordered 
-             :data-source="dataSource" 
-             :columns="columns"
+             :data-source="this.$store.getters.JOB_LIST" 
+             :columns="this.$store.getters.JOB_LIST_COLS"
              :row-selection="{onChange: onSelectChange}"
             >
             </a-table>
@@ -26,26 +26,17 @@
     </div>
 </template>
 <script>
-    import jobList from '@/data/jobList.json'
-    export default{
+import Vue from 'vue'
+import AppNewUserDrawer from '@/components/NewUserDrawer.vue'
+Vue.component('app-new-user-drawer', AppNewUserDrawer)
+export default{
+        created(){
+            this.$store.dispatch('GET_JOBLIST_FROM_API')
+            this.$store.dispatch('GET_JOBLISTCOLS_FROM_API')
+        },
         data(){
             return{
-                count: 4,
-                dataSource: jobList,
-                columns:[
-                    {
-                        title: '№ п/п',
-                        dataIndex: 'id',
-                    },
-                    {
-                        title: 'Должность',
-                        dataIndex: 'Job'
-                    },
-                    {
-                        title: 'Описание должности',
-                        dataIndex:'JobDescription'
-                    }
-                ]
+                //dataSource: jobList
             }
         },
         computed:{
@@ -54,27 +45,8 @@
             },
         },
         methods: {
-            addUser(){
-                console.log('add user method is used!')
-            },
-            currentUserEdit(){
-                console.log('user edit method is used!')
-            },
-            onSelectChange(selectedRowKeys){
-                console.log('selectedRowKeys changed:', selectedRowKeys);
-                this.selectedRowKeys = selectedRowKeys;
-            },
-            handleAdd() {
-                const { count, dataSource } = this;
-                const newData = {
-                    key: count,
-                    id: count,
-                    Job: `${count}-ая должность`,
-                    JobDescription:"Описание",
-                };
-                this.dataSource = [...dataSource, newData];
-                this.count = count + 1;
-            },
+            onSelectChange(){
+            }
         }
     }
 </script>

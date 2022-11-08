@@ -12,8 +12,8 @@
         <div>
             <a-table
             bordered
-            :data-source="tasks"
-            :columns="columns"
+            :data-source="this.$store.getters.TASKS"
+            :columns="this.$store.getters.TASK_COLS"
             >
 
             </a-table>
@@ -21,50 +21,38 @@
     </div>
 </template>
 <script>
+//import store from '@/store'
 import AppNewTaskDrawer from '@/components/NewTaskDrawer.vue'
 import Vue from 'vue'
-import TasksDB from '@/data/taskList.json'
+//import {mapActions, mapGetters} from 'vuex'
 Vue.component('app-new-task-drawer', AppNewTaskDrawer)
     export default{
-        // computed:{
-        //     startedTasks () {
-        //         return this.$store.getters.startedTasks
-        //     },
-        //     tasks () {
-        //         return this.$store.getters.tasks
-        //     }
-        // },
+        created(){
+            this.$store.dispatch('GET_TASKS_FROM_API')
+            this.$store.dispatch('GET_TASK_COLUMNS_FROM_API')
+        },
         data(){
             return{
-                columns: [
-                    {
-                        title: '#',
-                        dataIndex: "key"
-                    },
-                    {
-                        title: 'Название',
-                        dataIndex: "name"
-                    },
-                    {
-                        title: 'Дата начала',
-                        dataIndex: 'startDate'
-                    },
-                    {
-                        title: 'Дата окончания',
-                        dataIndex: 'endDate'
-                    },
-                    {
-                        title: 'Исполнитель',
-                        dataIndex: 'user'
-                    },
-                    {
-                        title: 'Идентификатор задачи',
-                        dataIndex: "id"
-                    }
-                ],
-                tasks: TasksDB
+                //store,
+                //cols: [],
+                //datab: []
             }
+        },
+        /*computed:{
+            ...mapGetters([
+               'TASKS', 'TASK_COLS'
+            ])
+        },*/
+        /*methods:{
+            ...mapActions([
+                'GET_TASKS_FROM_API', 
+                'GET_TASK_COLUMNS_FROM_API'
+            ])
+        },*/
+        mounted() {
+            
+            console.log(this.$store.state.tasks)
+            console.log(this.$store.state)
         }
-
     }
 </script>

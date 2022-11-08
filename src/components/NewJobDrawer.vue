@@ -1,8 +1,8 @@
 <template>
     <div>
-      <a-button type="primary" @click="showDrawer"> <a-icon type="plus" /> Добавить сотрудника </a-button>
+      <a-button type="primary" @click="showDrawer"> <a-icon type="plus" /> Добавить должность </a-button>
       <a-drawer
-        title="Добавить сотрудника"
+        title="Добавить должность"
         :width="720"
         :visible="visible"
         :body-style="{ paddingBottom: '80px' }"
@@ -10,82 +10,53 @@
       >
         <a-form :form="form" layout="vertical" hide-required-mark>
           <a-row :gutter="16">
-            <a-col :span="8">
-              <a-form-item label="Фамилия">
-                <a-input
-                  v-decorator="[
-                    'lastname',
-                    {
-                      rules: [{ required: true, message: 'Введите фамилию' }],
-                    },
-                  ]"
-                  placeholder="Введите фамилию"
-                />
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-                <a-form-item label="Имя">
-                    <a-input
-                        v-decorator="[
-                            'firstname',
-                            {
-                                rules: [{required: true, message: 'Введите имя'}],
-                            }
-                        ]"
-                        placeholder="Введите имя"
-                    />
-                </a-form-item>
-            </a-col>
-            <a-col :span="8">
-                <a-form-item label="Отчество">
-                    <a-input
-                        v-decorator="[
-                            'patronym',
-                            {
-                                rules: [{required: false, message: 'Введите отчество'}],
-                            }
-                        ]"
-                        placeholder="Введите отчество"
-                    />
-                </a-form-item>
-            </a-col>
-          </a-row>
-          <a-row :gutter="16">
             <a-col :span="24">
-              <a-form-item label="Выберите должность">
-                <a-select
-                  v-decorator="[
-                    'owner',
-                    {
-                      rules: [{ required: true, message: 'Выберите должность' }],
-                    },
-                  ]"
-                  placeholder="Выберите должность"
+              <a-form-model 
+              ref="ruleForm" 
+              :model="ruleForm" 
+              :rules="rules" 
+              v-bind="layout"
+              >
+                <a-form-model-item 
+                has-feedback 
+                label="Password" 
+                prop="pass"
                 >
-                  <a-select-option value="xiao">
-                    Xiaoxiao Fu
-                  </a-select-option>
-                  <a-select-option value="mao">
-                    Maomao Zhou
-                  </a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-          </a-row>
-          <a-row :gutter="16">
-            <a-col :span="24">
-              <a-form-item label="Дополнительные заметки">
-                <a-textarea
-                  v-decorator="[
-                    'description',
-                    {
-                      rules: [{ required: false, message: 'Поле для дополнительных заметок' }],
-                    },
-                  ]"
-                  :rows="4"
-                  placeholder="Поле для дополнительных заметок"
-                />
-              </a-form-item>
+                  <a-input 
+                  v-model="ruleForm.pass" 
+                  type="password" 
+                  autocomplete="off" 
+                  />
+                </a-form-model-item>
+                <a-form-model-item 
+                has-feedback 
+                label="Confirm" 
+                prop="checkPass"
+                >
+                  <a-input 
+                  v-model="ruleForm.checkPass" 
+                  type="password" 
+                  autocomplete="off" 
+                  />
+                </a-form-model-item>
+                <a-form-model-item 
+                has-feedback 
+                label="Age" 
+                prop="age"
+                >
+                  <a-input 
+                  v-model.number="ruleForm.age" 
+                  />
+                </a-form-model-item>
+                <a-form-model-item :wrapper-col="{ span: 14, offset: 4 }">
+                  <a-button type="primary" @click="submitForm('ruleForm')">
+                    Submit
+                  </a-button>
+                  <a-button style="margin-left: 10px" @click="resetForm('ruleForm')">
+                    Reset
+                </a-button>
+                </a-form-model-item>
+              </a-form-model>
             </a-col>
           </a-row>
         </a-form>
@@ -115,12 +86,76 @@
   <script>
   export default {
     data() {
+      let checkPending;
+      let checkAge = (rule, value, callback) => {
+        clearTimeout(checkPending);
+      if (!value) {
+        return callback(new Error('Please input the age'));
+      }
+      checkPending = setTimeout(() => {
+        if (!Number.isInteger(value)) {
+          callback(new Error('Please input digits'));
+        } else {
+          if (value < 18) {
+            callback(new Error('Age must be greater than 18'));
+          } else {
+            callback();
+          }
+        }
+      }, 1000);
+    };
+    let validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('Please input the password'));
+      } else {
+        if (this.ruleForm.checkPass !== '') {
+          this.$refs.ruleForm.validateField('checkPass');
+        }
+        callback();
+      }
+    };
+    let validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('Please input the password again'));
+      } else if (value !== this.ruleForm.pass) {
+        callback(new Error("Two inputs don't match!"));
+      } else {
+        callback();
+      }
+    };
       return {
         form: this.$form.createForm(this),
         visible: false,
+        ruleForm: {
+        pass: '',
+        checkPass: '',
+        age: '',
+        },
+        rules: {
+          pass: [{ validator: validatePass, trigger: 'change' }],
+          checkPass: [{ validator: validatePass2, trigger: 'change' }],
+          age: [{ validator: checkAge, trigger: 'change' }],
+        },
+        layout: {
+          labelCol: { span: 4 },
+          wrapperCol: { span: 14 },
+        }
       };
     },
     methods: {
+      submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          alert('submit!');
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
       showDrawer() {
         this.visible = true;
       },
