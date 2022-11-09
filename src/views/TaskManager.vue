@@ -6,7 +6,10 @@
         </h1>
         <a-divider/>
         <div>
-            <app-new-task-drawer></app-new-task-drawer>
+            <a-space size="small">
+                <app-new-task-drawer/>
+                <a-button @click="deleteTask">Удалить задачу</a-button>
+            </a-space>
         </div>
         <a-divider/>
         <div>
@@ -14,6 +17,7 @@
             bordered
             :data-source="this.$store.getters.TASKS"
             :columns="this.$store.getters.TASK_COLS"
+            :row-selection="{selectedRowKeys:selectedRowKeys, onChange: onSelectChange}"
             >
 
             </a-table>
@@ -21,34 +25,33 @@
     </div>
 </template>
 <script>
-//import store from '@/store'
 import AppNewTaskDrawer from '@/components/NewTaskDrawer.vue'
 import Vue from 'vue'
-//import {mapActions, mapGetters} from 'vuex'
+//import axios from 'axios'
 Vue.component('app-new-task-drawer', AppNewTaskDrawer)
     export default{
         created(){
-            this.$store.dispatch('GET_TASKS_FROM_API')
-            this.$store.dispatch('GET_TASK_COLUMNS_FROM_API')
+            
         },
         data(){
             return{
-                //store,
-                //cols: [],
-                //datab: []
+                selectedRowKeys:[]
             }
         },
-        /*computed:{
-            ...mapGetters([
-               'TASKS', 'TASK_COLS'
-            ])
-        },*/
-        /*methods:{
-            ...mapActions([
-                'GET_TASKS_FROM_API', 
-                'GET_TASK_COLUMNS_FROM_API'
-            ])
-        },*/
+        methods:{
+            deleteTask(){
+                if(this.selectedRowKeys.length>0){
+                    for(let i = 0; i<this.selectedRowKeys.length;i++){
+                        const varUrl = 'http://localhost:3200/tasks/'+this.selectedRowKeys[i]
+                        this.$store.dispatch('DEL_JOBLIST_FROM_API',varUrl)
+                    }
+                    this.selectedRowKeys=[]
+                }
+            },
+            onSelectChange(selectedRowKeys){
+                this.selectedRowKeys=selectedRowKeys
+            }
+        },
         mounted() {
             
             console.log(this.$store.state.tasks)

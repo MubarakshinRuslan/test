@@ -4,7 +4,7 @@
             <a-menu
             theme="dark"
             mode="horizontal"
-            :default-selected-keys="['1']"
+            :default-selected-keys="n"
             :style="{ lineHeight: '64px' }"
             >
                 <a-menu-item key="1">
@@ -22,6 +22,12 @@
 </template>
 
 <script>
+
 export default{
+    data(){
+        return{
+            n: ['1']
+        }
+    }
 }
 </script>

@@ -13,13 +13,33 @@
             <a-col :span="24">
               <a-form-item label="Название">
                 <a-input
-                  v-decorator="[
-                    'name',
-                    {
-                      rules: [{ required: true, message: 'Введите название задачи' }],
-                    },
-                  ]"
+                  v-model="name"
                   placeholder="Введите название задачи"
+                />
+              </a-form-item>
+            </a-col>
+          </a-row>
+          <a-row :gutter="16">
+            <a-col :span="24">
+              <a-form-item label="Исполнитель">
+                <a-select
+                  v-model="user"
+                  placeholder="Выберите исполнителя"
+                >
+                  <a-select-option v-for="i in this.$store.getters.JOB_LIST" :key="i.name">
+                    {{i.name}}
+                  </a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col>
+          </a-row>
+          <a-row :gutter="16">
+            <a-col :span="24">
+              <a-form-item label="Даты начала и окончания">
+                <a-range-picker
+                :default-value="dates"
+                :format="dateFormat"
+                v-model="dates"
                 />
               </a-form-item>
             </a-col>
@@ -28,66 +48,9 @@
             <a-col :span="24">
               <a-form-item label="Описание">
                 <a-textarea
-                  v-decorator="[
-                    'description',
-                    {
-                      rules: [{ required: true, message: 'Введите описание задачи' }],
-                    },
-                  ]"
+                  v-model="description"
                   :rows="4"
                   placeholder="Введите описание задачи"
-                />
-              </a-form-item>
-            </a-col>
-          </a-row>
-          <a-row :gutter="16">
-            <a-col :span="12">
-              <a-form-item label="Исполнитель">
-                <a-select
-                  v-decorator="[
-                    'owner',
-                    {
-                      rules: [{ required: true, message: 'Выберите исполнителя' }],
-                    },
-                  ]"
-                  placeholder="Выберите исполнителя"
-                >
-                  <a-select-option v-for="i in this.$store.getters.JOBS" :key="i.job">
-                    {{i.job}}
-                  </a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :span="12">
-              <a-form-item label="Type">
-                <a-select
-                  v-decorator="[
-                    'type',
-                    {
-                      rules: [{ required: true, message: 'Please choose the type' }],
-                    },
-                  ]"
-                  placeholder="Please choose the type"
-                >
-                  <a-select-option value="private">
-                    Private
-                  </a-select-option>
-                  <a-select-option value="public">
-                    Public
-                  </a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-          </a-row>
-          <a-row :gutter="16">
-            <a-col :span="12">
-              
-            </a-col>
-            <a-col :span="24">
-              <a-form-item label="DateTime">
-                <a-range-picker
-                :default-value="[moment('2022/01/01', dateFormat), moment('2023/01/01', dateFormat)]"
-                :format="dateFormat"
                 />
               </a-form-item>
             </a-col>
@@ -107,23 +70,30 @@
           }"
         >
           <a-button :style="{ marginRight: '8px' }" @click="onClose">
-            Cancel
+            Отменить
           </a-button>
-          <a-button type="primary" @click="onClose">
-            Submit
+          <a-button type="primary" @click="onSubmit">
+            Создать
           </a-button>
         </div>
       </a-drawer>
     </div>
   </template>
   <script>
+  import axios from 'axios'
   import moment from 'moment'
   export default {
     data() {
       return {
         dateFormat: 'YYYY/MM/DD',
+        dates: [moment('2022/01/01', 'YYYY/MM/DD'), moment('2023/01/01', 'YYYY/MM/DD')],
         form: this.$form.createForm(this),
         visible: false,
+        startDate: "",
+        endDate:"",
+        name:"",
+        user:"",
+        description:""
       };
     },
     methods: {
@@ -134,6 +104,24 @@
       onClose() {
         this.visible = false;
       },
+      onSubmit() {
+        const newTask={
+          key:this.$store.getters.TASKS.length+1,
+          name: this.name,
+          user: this.user,
+          description: this.description,
+          startDate: this.dates[0]._i,
+          endDate: this.dates[1]._i
+        }
+        axios.post('http://localhost:3200/tasks',newTask)
+        .then(res=>{
+          console.log(res)
+          this.visible = false
+          this.$store.dispatch('GET_TASKS_FROM_API')
+          this.$store.dispatch('GET_TASK_COLUMNS_FROM_API')
+        })
+        .catch(e => console.error(e))
+      }
     },
   };
   </script>

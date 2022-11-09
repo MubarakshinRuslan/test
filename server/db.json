@@ -2,33 +2,15 @@
   "jobs": [
     {
       "key": 1,
-      "job": "Самая первая должность",
-      "notes": "Новая должность",
+      "job": "Первая",
+      "notes": "Первая",
       "id": 1
     },
     {
       "key": 2,
-      "job": "Вторая должность",
-      "notes": "Описание второй",
+      "job": "Распространенная",
+      "notes": "Вторая должность",
       "id": 2
-    },
-    {
-      "key": 3,
-      "job": "Третья должность",
-      "notes": "Одна из первых",
-      "id": 3
-    },
-    {
-      "key": 4,
-      "job": "j",
-      "notes": "z",
-      "id": 4
-    },
-    {
-      "key": 5,
-      "job": "Ды",
-      "notes": "sdada",
-      "id": 5
     }
   ],
   "jobCols": [
@@ -55,34 +37,7 @@
       "password": "123456"
     }
   ],
-  "tasks": [
-    {
-      "key": "1",
-      "id": "1",
-      "name": "First task",
-      "startDate": "2022/01/01",
-      "endDate": "2022/02/01",
-      "user": "user1",
-      "isStarted": "true",
-      "tags": {
-        "isExpired": "false",
-        "isDificult": "true"
-      }
-    },
-    {
-      "key": "2",
-      "id": "2",
-      "name": "Second task",
-      "startDate": "2022/01/01",
-      "endDate": "2022/02/01",
-      "user": "user1",
-      "isStarted": "true",
-      "tags": {
-        "isExpired": "false",
-        "isDificult": "true"
-      }
-    }
-  ],
+  "tasks": [],
   "tasksColumns": [
     {
       "id": "1",
@@ -115,26 +70,7 @@
       "dataIndex": "id"
     }
   ],
-  "jobList": [
-    {
-      "key": 1,
-      "id": 1,
-      "Job": "Директор",
-      "JobDescription": "Глава компании."
-    },
-    {
-      "key": 2,
-      "id": 2,
-      "Job": "Сотрудник отдела кадров",
-      "JobDescription": "Занимается поиском новых сотрудников компании."
-    },
-    {
-      "key": 3,
-      "id": 3,
-      "Job": "Инженер конструктор",
-      "JobDescription": "Разрабатывает конструкторскую документацию."
-    }
-  ],
+  "jobList": [],
   "jobListCols": [
     {
       "id": "1",
@@ -143,18 +79,18 @@
     },
     {
       "id": "2",
-      "title": "Идентификатор должности",
+      "title": "Идентификатор пользователя",
       "dataIndex": "id"
     },
     {
       "id": "3",
-      "title": "Должность",
-      "dataIndex": "Job"
+      "title": "ФИО",
+      "dataIndex": "name"
     },
     {
       "id": "4",
-      "title": "Описание",
-      "dataIndex": "JobDescription"
+      "title": "Должность",
+      "dataIndex": "job"
     }
   ]
 }

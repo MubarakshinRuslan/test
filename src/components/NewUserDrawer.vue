@@ -13,25 +13,15 @@
             <a-col :span="8">
               <a-form-item label="Фамилия">
                 <a-input
-                  v-decorator="[
-                    'lastname',
-                    {
-                      rules: [{ required: true, message: 'Введите фамилию' }],
-                    },
-                  ]"
                   placeholder="Введите фамилию"
+                  v-model="lastName"
                 />
               </a-form-item>
             </a-col>
             <a-col :span="8">
                 <a-form-item label="Имя">
                     <a-input
-                        v-decorator="[
-                            'firstname',
-                            {
-                                rules: [{required: true, message: 'Введите имя'}],
-                            }
-                        ]"
+                        v-model="firstName"
                         placeholder="Введите имя"
                     />
                 </a-form-item>
@@ -39,12 +29,7 @@
             <a-col :span="8">
                 <a-form-item label="Отчество">
                     <a-input
-                        v-decorator="[
-                            'patronym',
-                            {
-                                rules: [{required: false, message: 'Введите отчество'}],
-                            }
-                        ]"
+                        v-model="patronym"
                         placeholder="Введите отчество"
                     />
                 </a-form-item>
@@ -54,19 +39,11 @@
             <a-col :span="24">
               <a-form-item label="Выберите должность">
                 <a-select
-                  v-decorator="[
-                    'owner',
-                    {
-                      rules: [{ required: true, message: 'Выберите должность' }],
-                    },
-                  ]"
+                  v-model="job"
                   placeholder="Выберите должность"
                 >
-                  <a-select-option value="xiao">
-                    Xiaoxiao Fu
-                  </a-select-option>
-                  <a-select-option value="mao">
-                    Maomao Zhou
+                  <a-select-option v-for="i in this.$store.getters.JOBS" :key="i.job">
+                    {{i.job}}
                   </a-select-option>
                 </a-select>
               </a-form-item>
@@ -76,14 +53,9 @@
             <a-col :span="24">
               <a-form-item label="Дополнительные заметки">
                 <a-textarea
-                  v-decorator="[
-                    'description',
-                    {
-                      rules: [{ required: false, message: 'Поле для дополнительных заметок' }],
-                    },
-                  ]"
                   :rows="4"
                   placeholder="Поле для дополнительных заметок"
+                  v-model="description"
                 />
               </a-form-item>
             </a-col>
@@ -105,7 +77,7 @@
           <a-button :style="{ marginRight: '8px' }" @click="onClose">
             Отменить
           </a-button>
-          <a-button type="primary" @click="onClose">
+          <a-button type="primary" @click="onSubmit">
             Добавить сотрудника
           </a-button>
         </div>
@@ -113,9 +85,16 @@
     </div>
   </template>
   <script>
+  import axios from 'axios'
   export default {
     data() {
       return {
+        name:'',
+        firstName:'',
+        lastName:'',
+        patronym:'',
+        job:'',
+        description:'',
         form: this.$form.createForm(this),
         visible: false,
       };
@@ -127,6 +106,25 @@
       onClose() {
         this.visible = false;
       },
+      onSubmit(){
+        let newname = this.lastName+' '+this.firstName[0]+'. '+this.patronym[0]+'.'
+        const newUser = {
+          key:this.$store.getters.JOB_LIST.length+1,
+          firstName:this.firstName,
+          lastName:this.lastName,
+          patronym:this.patronym,
+          job:this.job,
+          description:this.description,
+          name:newname
+        }
+        axios.post('http://localhost:3200/jobList',newUser)
+        .then(res=>{
+          console.log(res)
+          this.visible = false
+          this.$store.dispatch('GET_JOBLIST_FROM_API')
+          this.$store.dispatch('GET_JOBLISTCOLS_FROM_API')
+        })
+      }
     },
   };
   </script>

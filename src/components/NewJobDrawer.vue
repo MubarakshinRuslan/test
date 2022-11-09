@@ -79,7 +79,12 @@
           notes:this.notes
         }
         axios.post('http://localhost:3200/jobs',user)
-        .then(res => {console.log(res);this.visible = false})
+        .then(res => {
+          console.log(res)
+          this.visible = false
+          this.$store.dispatch('GET_JOBS_FROM_API')
+          this.$store.dispatch('GET_JOB_COLS_FROM_API')
+        })
         .catch(e => {console.error(e)})      
       }
     },
