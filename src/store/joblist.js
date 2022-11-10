@@ -6,7 +6,6 @@ export default{
         jobList: [],
         jobListCols: [],
         userUrl: 'http://localhost:3200/joblist',
-        userUrl2: 'http://localhost:3200/joblist/'
     },
     mutations:{
         SET_JOBLIST_TO_STATE: (state, jobList) => {

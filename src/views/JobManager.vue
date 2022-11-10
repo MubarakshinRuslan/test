@@ -4,7 +4,10 @@
         <h1>Список должностей</h1>
         <a-divider/>
         <div>
-            <app-new-job-drawer/>
+            <a-space size="small">
+                <app-new-job-drawer/>
+                <a-button @click="deleteJob">Удалить должность</a-button>
+            </a-space>
         </div>
         <a-divider/>
         <div> 
@@ -22,13 +25,31 @@
 <script>
 import Vue from 'vue'
 import AppNewJobDrawer from '@/components/NewJobDrawer.vue'
+import {message} from 'ant-design-vue'
 Vue.component('app-new-job-drawer', AppNewJobDrawer)
     export default{
         created(){
             
         },
+        data(){
+            return{
+                selectedRowKeys:[]
+            }
+        },
+        computed:{
+            hasSelected(){
+                return this.selectedRowKeys.length>0;
+            },
+        },
         methods:{
-            onSelectChange(){
+            deleteJob(){
+                if(this.selectedRowKeys.length>0){
+                    this.$store.dispatch('DELETE_JOB_FROM_API',this.selectedRowKeys)
+                    this.selectedRowKeys=[]
+                }else{message.error('Не выбрано ни одной должности',5)}
+            },
+            onSelectChange(selectedRowKeys){
+                this.selectedRowKeys = selectedRowKeys;
             }
         }
     }

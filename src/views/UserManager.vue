@@ -29,6 +29,7 @@
 <script>
 import Vue from 'vue'
 import AppNewUserDrawer from '@/components/NewUserDrawer.vue'
+import {message} from 'ant-design-vue'
 //import axios from 'axios'
 Vue.component('app-new-user-drawer', AppNewUserDrawer)
 export default{
@@ -49,13 +50,9 @@ export default{
         methods: {
             deleteUser(){
                 if(this.selectedRowKeys.length>0){
-                //    for(let i = 0; i<this.selectedRowKeys.length;i++){
-                //        const delRow = this.selectedRowKeys[i]
-                //        this.$store.dispatch('DELETE_ROW_FROM_API', delRow)
-                //}
                     this.$store.dispatch('DELETE_JOBLIST_FROM_API',this.selectedRowKeys)
                     this.selectedRowKeys=[]
-                }else{alert('Не выбрано ни одного пользователя')}
+                }else{message.error('Не выбрано ни одного пользователя',5)}
             },
             onSelectChange(selectedRowKeys){
                 console.log('selectedRowKeys changed: ', selectedRowKeys);

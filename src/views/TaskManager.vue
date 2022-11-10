@@ -44,7 +44,7 @@ Vue.component('app-new-task-drawer', AppNewTaskDrawer)
                 if(this.selectedRowKeys.length>0){
                     for(let i = 0; i<this.selectedRowKeys.length;i++){
                         const varUrl = 'http://localhost:3200/tasks/'+this.selectedRowKeys[i]
-                        this.$store.dispatch('DEL_JOBLIST_FROM_API',varUrl)
+                        this.$store.dispatch('DELETE_TASKS_FROM_API',varUrl)
                     }
                     this.selectedRowKeys=[]
                 }

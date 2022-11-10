@@ -1,11 +1,35 @@
+import { message } from 'ant-design-vue'
 import axios from 'axios'
 
 export default{
     state:{
         jobs:[],
-        jobCols:[]
+        jobCols:[],
+        jobsUrl: 'http://localhost:3200/jobs'
     },
     actions:{
+        async ADD_NEWJOB({state},job){
+            try{
+                const j = await axios.post(state.jobsUrl,job)
+                console.log(j)
+                message.success('Новая должность добавлена!',5)
+                this.dispatch('GET_JOBS_FROM_API')
+            }catch(e){
+                message.error('Ошибка при добавлении новой должности',5)
+        }
+        },
+        async DELETE_JOB_FROM_API({state},rowId){
+            this.dispatch('GET_JOBS_FROM_API')
+            rowId.forEach(async (element)=> {try{
+                const j = await axios.delete(state.jobsUrl+'/'+element)
+                console.log(j)
+                message.success('Запись удалена',5)
+                this.dispatch('GET_JOBS_FROM_API')
+            }catch(e){
+                message.error('Ошибка при удалении должности',5)
+            }
+        })
+        },
         async GET_JOBS_FROM_API({commit}){
             try{
                 const jobs = await axios('http://localhost:3200/jobs',{

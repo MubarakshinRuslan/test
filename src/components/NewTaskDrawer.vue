@@ -80,7 +80,7 @@
     </div>
   </template>
   <script>
-  import axios from 'axios'
+  //import axios from 'axios'
   import moment from 'moment'
   export default {
     data() {
@@ -100,6 +100,9 @@
         moment,
       showDrawer() {
         this.visible = true;
+        this.name='';
+        this.user='';
+        this.description='';
       },
       onClose() {
         this.visible = false;
@@ -113,14 +116,8 @@
           startDate: this.dates[0]._i,
           endDate: this.dates[1]._i
         }
-        axios.post('http://localhost:3200/tasks',newTask)
-        .then(res=>{
-          console.log(res)
-          this.visible = false
-          this.$store.dispatch('GET_TASKS_FROM_API')
-          this.$store.dispatch('GET_TASK_COLUMNS_FROM_API')
-        })
-        .catch(e => console.error(e))
+        this.$store.dispatch('ADD_NEWTASK',newTask)
+        this.visible = false
       }
     },
   };

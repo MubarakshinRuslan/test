@@ -101,10 +101,14 @@
     },
     methods: {
       showDrawer() {
-        this.visible = true;
+        this.visible = true
+        this.firstName=''
+        this.lastName=''
+        this.patronym=''
+        this.job=''
       },
       onClose() {
-        this.visible = false;
+        this.visible = false
       },
       onSubmit(){
         let newname = this.lastName+' '+this.firstName[0]+'. '+this.patronym[0]+'.'
@@ -127,6 +131,6 @@
         // })
       }
     },
-  };
+  }
   </script>
   

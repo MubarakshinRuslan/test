@@ -68,6 +68,8 @@
     methods: {
       showDrawer() {
         this.visible = true;
+        this.job=''
+        this.notes='';
       },
       onClose() {
         this.visible = false;

@@ -4,7 +4,8 @@ import {message} from 'ant-design-vue'
 export default{
     state:{
         tasks:[],
-        tasksColumns:[]
+        tasksColumns:[],
+        tasksUrl: 'http://localhost:3200/tasks'
     },
     mutations:{
         SET_TASKS_TO_STATE: (state, tasks) => {
@@ -15,6 +16,16 @@ export default{
         }
     },
     actions:{
+        async ADD_NEWTASK({state},task){
+            try{
+                const j = await axios.post(state.tasksUrl, task)
+                console.log(j)
+                message.success('Новая задача добавлена!',5)
+                this.dispatch('GET_TASKS_FROM_API')
+            }catch(e){
+                message.error('Ошибка при создании новой задачи!',5)
+            }
+        },
         async DELETE_TASKS_FROM_API({state},rowId){
             this.dispatch('GET_TASKS_FROM_API')//загрузка массива JOBLIST из сервера в STORE
             rowId.forEach(async (element)=>{try{
