@@ -1,4 +1,5 @@
 import axios from "axios"
+import {message} from 'ant-design-vue'
 
 export default{
     state:{
@@ -14,6 +15,18 @@ export default{
         }
     },
     actions:{
+        async DELETE_TASKS_FROM_API({state},rowId){
+            this.dispatch('GET_TASKS_FROM_API')//загрузка массива JOBLIST из сервера в STORE
+            rowId.forEach(async (element)=>{try{
+                const j = await axios.delete(state.userUrl+'/'+element)//удаление записи
+                console.log(j)
+                message.success(`Запись удалена`,5)
+            }catch(e){
+                console.error(e)
+                message.error('Ошибка при удалении из базы!',5)
+            }
+            this.dispatch('GET_TASKS_FROM_API')
+        })},
         async GET_TASKS_FROM_API({commit}){
             try {
                 const tasks = await axios('http://localhost:3200/tasks', {

@@ -1,9 +1,12 @@
 import axios from 'axios'
+import {message} from 'ant-design-vue'
 
 export default{
     state:{
         jobList: [],
-        jobListCols: []
+        jobListCols: [],
+        userUrl: 'http://localhost:3200/joblist',
+        userUrl2: 'http://localhost:3200/joblist/'
     },
     mutations:{
         SET_JOBLIST_TO_STATE: (state, jobList) => {
@@ -11,49 +14,31 @@ export default{
         },
         SET_JOBLISTCOLS_TO_STATE: (state, jobListCols) => {
             state.jobListCols = jobListCols
-        },
-        REARRANGE_JOBLIST_IN_STATE: (state) => {
-            if(state.jobList.length>0){
-                for(let i=0;i<state.jobList.length-1;i++){
-                    state.jobList[i].id = i+1
-                }
-            }
         }
     },
     actions:{
-        async DEL_JOBLIST_FROM_API({commit,state},rowId){
+        async ADD_NEWUSER({state},user){
             try{
-                const delJob = await axios('http://localhost:3200/joblist/'+rowId,{
-                    method: "DELETE"
-                })
+                const j = await axios.post(state.userUrl,user)
+                console.log(j)
+                message.success('Новый пользователь добавлен!',5)
                 this.dispatch('GET_JOBLIST_FROM_API')
-                commit('REARRANGE_JOBLIST_IN_STATE')
-                let deleting
-                console.log('deleting')
-                for(let i=rowId+1;i<=state.jobList.length;i++){
-                    deleting=await axios('http://localhost:3200/joblist/'+i,{method:"DELETE"})
-                    console.log(deleting)
-                }
-                this.dispatch('PUT_REARRANGED_JOBLIST_IN_API', rowId)
-                return delJob
-            }catch(error){
-                console.error(error)
-                return error
+            }catch(e){
+                message.error('Ошибка при добавлении нового пользователя!',5)
             }
         },
-        async PUT_REARRANGED_JOBLIST_IN_API({state},rowId){
-            try{
-                let postJoblist
-                console.log('posting back')
-                for(let i=rowId;i<=state.jobList.length;i++){
-                    postJoblist=await axios.post('http://localhost:3200/joblist',state.jobList[i+1])
-                }
-                return postJoblist
-            }catch(error){
-                console.error(error)
-                return error
+        async DELETE_JOBLIST_FROM_API({state},rowId){
+            this.dispatch('GET_JOBLIST_FROM_API')//загрузка массива JOBLIST из сервера в STORE
+            rowId.forEach(async (element)=>{try{
+                const j = await axios.delete(state.userUrl+'/'+element)//удаление записи
+                console.log(j)
+                message.success(`Запись удалена`,5)
+            }catch(e){
+                console.error(e)
+                message.error('Ошибка при удалении из базы!',5)
             }
-        },
+            this.dispatch('GET_JOBLIST_FROM_API')
+        })},
         async GET_JOBLIST_FROM_API({commit}){
             try{
                 const jobList = await axios('http://localhost:3200/joblist',{

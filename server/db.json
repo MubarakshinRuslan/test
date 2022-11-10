@@ -1,24 +1,22 @@
 {
   "jobs": [
     {
-      "key": 1,
       "job": "Первая",
       "notes": "Первая",
       "id": 1
     },
     {
-      "key": 2,
       "job": "Распространенная",
       "notes": "Вторая должность",
       "id": 2
+    },
+    {
+      "job": "Директор денег",
+      "notes": "мечта детства",
+      "id": 3
     }
   ],
   "jobCols": [
-    {
-      "id": "1",
-      "title": "#",
-      "dataIndex": "key"
-    },
     {
       "id": "2",
       "title": "Должность",
@@ -39,11 +37,6 @@
   ],
   "tasks": [],
   "tasksColumns": [
-    {
-      "id": "1",
-      "title": "#",
-      "dataIndex": "key"
-    },
     {
       "id": "2",
       "title": "Название",
@@ -70,25 +63,86 @@
       "dataIndex": "id"
     }
   ],
-  "jobList": [],
+  "jobList": [
+    {
+      "firstName": "Иван",
+      "lastName": "Перваков",
+      "patronym": "Иваныч",
+      "job": "Первая",
+      "description": "",
+      "name": "Перваков И. И.",
+      "id": 1
+    },
+    {
+      "firstName": "Иван",
+      "lastName": "Третьяков",
+      "patronym": "Иваныч",
+      "job": "Первая",
+      "description": "",
+      "name": "Третьяков И. И.",
+      "id": 3
+    },
+    {
+      "firstName": "Иван",
+      "lastName": "Четвертаков",
+      "patronym": "Иваныч",
+      "job": "Первая",
+      "description": "",
+      "name": "Четвертаков И. И.",
+      "id": 4
+    },
+    {
+      "firstName": "Иван",
+      "lastName": "Пятак",
+      "patronym": "Иваныч",
+      "job": "Первая",
+      "description": "",
+      "name": "Пятак И. И.",
+      "id": 5
+    },
+    {
+      "firstName": "Иван",
+      "lastName": "Шестерка",
+      "patronym": "Иваныч",
+      "job": "Первая",
+      "description": "",
+      "name": "Шестерка И. И.",
+      "id": 6
+    },
+    {
+      "firstName": "Иван",
+      "lastName": "Девятов",
+      "patronym": "Иваныч",
+      "job": "Первая",
+      "description": "",
+      "name": "Девятов И. И.",
+      "id": 9
+    },
+    {
+      "firstName": "Иван",
+      "lastName": "Десятник",
+      "patronym": "Иваныч",
+      "job": "Первая",
+      "description": "",
+      "name": "Десятник И. И.",
+      "id": 10
+    },
+    {
+      "firstName": "Иван",
+      "lastName": "Одиннадцатый",
+      "patronym": "Иваныч",
+      "job": "Первая",
+      "description": "",
+      "name": "Одиннадцатый И. И.",
+      "id": 11
+    }
+  ],
   "jobListCols": [
     {
-      "id": "1",
-      "title": "#",
-      "dataIndex": "key"
-    },
-    {
-      "id": "2",
-      "title": "Идентификатор пользователя",
-      "dataIndex": "id"
-    },
-    {
-      "id": "3",
       "title": "ФИО",
       "dataIndex": "name"
     },
     {
-      "id": "4",
       "title": "Должность",
       "dataIndex": "job"
     }

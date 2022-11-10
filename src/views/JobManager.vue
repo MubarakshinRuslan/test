@@ -10,6 +10,7 @@
         <div> 
             <a-table
             bordered
+            row-key="id"
             :data-source="this.$store.getters.JOBS"
             :columns="this.$store.getters.JOB_COLS"
             :row-selection="{onChange: onSelectChange}"

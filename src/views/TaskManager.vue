@@ -15,6 +15,7 @@
         <div>
             <a-table
             bordered
+            row-key="id"
             :data-source="this.$store.getters.TASKS"
             :columns="this.$store.getters.TASK_COLS"
             :row-selection="{selectedRowKeys:selectedRowKeys, onChange: onSelectChange}"

@@ -19,6 +19,7 @@
              bordered 
              :data-source="this.$store.getters.JOB_LIST" 
              :columns="this.$store.getters.JOB_LIST_COLS"
+             row-key="id"
              :row-selection="{selectedRowKeys:selectedRowKeys, onChange: onSelectChange}"
             >
             </a-table>
@@ -48,10 +49,12 @@ export default{
         methods: {
             deleteUser(){
                 if(this.selectedRowKeys.length>0){
-                    for(let i = 0; i<this.selectedRowKeys.length;i++){
-                        const delRow = this.selectedRowKeys[i]
-                        this.$store.dispatch('DEL_JOBLIST_FROM_API', delRow)
-                    }
+                //    for(let i = 0; i<this.selectedRowKeys.length;i++){
+                //        const delRow = this.selectedRowKeys[i]
+                //        this.$store.dispatch('DELETE_ROW_FROM_API', delRow)
+                //}
+                    this.$store.dispatch('DELETE_JOBLIST_FROM_API',this.selectedRowKeys)
+                    this.selectedRowKeys=[]
                 }else{alert('Не выбрано ни одного пользователя')}
             },
             onSelectChange(selectedRowKeys){

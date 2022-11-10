@@ -85,7 +85,7 @@
     </div>
   </template>
   <script>
-  import axios from 'axios'
+  //import axios from 'axios'
   export default {
     data() {
       return {
@@ -109,7 +109,6 @@
       onSubmit(){
         let newname = this.lastName+' '+this.firstName[0]+'. '+this.patronym[0]+'.'
         const newUser = {
-          key:this.$store.getters.JOB_LIST.length+1,
           firstName:this.firstName,
           lastName:this.lastName,
           patronym:this.patronym,
@@ -117,13 +116,15 @@
           description:this.description,
           name:newname
         }
-        axios.post('http://localhost:3200/jobList',newUser)
-        .then(res=>{
-          console.log(res)
-          this.visible = false
-          this.$store.dispatch('GET_JOBLIST_FROM_API')
-          this.$store.dispatch('GET_JOBLISTCOLS_FROM_API')
-        })
+        this.$store.dispatch('ADD_NEWUSER',newUser)
+        this.visible = false
+        // axios.post('http://localhost:3200/jobList',newUser)
+        // .then(res=>{
+        //   console.log(res)
+        //   this.visible = false
+        //   this.$store.dispatch('GET_JOBLIST_FROM_API')
+        //   this.$store.dispatch('GET_JOBLISTCOLS_FROM_API')
+        // })
       }
     },
   };

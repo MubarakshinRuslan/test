@@ -74,10 +74,10 @@
       },
       onSubmit(){
         const user = {
-          key:this.$store.getters.JOBS.length+1,
           job:this.job,
           notes:this.notes
         }
+        //this.$store.commit('ADD_NEWJOB',user)
         axios.post('http://localhost:3200/jobs',user)
         .then(res => {
           console.log(res)
