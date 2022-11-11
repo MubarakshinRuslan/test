@@ -42,9 +42,9 @@ Vue.component('app-new-job-drawer', AppNewJobDrawer)
             },
         },
         methods:{
-            deleteJob(){
+            async deleteJob(){
                 if(this.selectedRowKeys.length>0){
-                    this.$store.dispatch('DELETE_JOB_FROM_API',this.selectedRowKeys)
+                    await this.$store.dispatch('DELETE_JOB_FROM_API',this.selectedRowKeys)
                     this.selectedRowKeys=[]
                 }else{message.error('Не выбрано ни одной должности',5)}
             },

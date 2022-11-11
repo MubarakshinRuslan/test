@@ -16,13 +16,13 @@ import Vue from 'vue'
 import HeaderBar from '@/components/HeaderBar.vue'
 Vue.component('app-header-bar', HeaderBar)
   export default{
-    created(){
-      this.$store.dispatch('GET_TASKS_FROM_API')
-      this.$store.dispatch('GET_TASK_COLUMNS_FROM_API')
-      this.$store.dispatch('GET_JOBS_FROM_API')
-      this.$store.dispatch('GET_JOB_COLS_FROM_API')
-      this.$store.dispatch('GET_JOBLIST_FROM_API')
-      this.$store.dispatch('GET_JOBLISTCOLS_FROM_API')
+    async created(){
+      await this.$store.dispatch('GET_TASKS_FROM_API')
+      await this.$store.dispatch('GET_TASK_COLUMNS_FROM_API')
+      await this.$store.dispatch('GET_JOBS_FROM_API')
+      await this.$store.dispatch('GET_JOB_COLS_FROM_API')
+      await this.$store.dispatch('GET_JOBLIST_FROM_API')
+      await this.$store.dispatch('GET_JOBLISTCOLS_FROM_API')
     },
     data(){
       {

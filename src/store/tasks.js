@@ -1,11 +1,13 @@
 import axios from "axios"
 import {message} from 'ant-design-vue'
+import moment from 'moment'
 
 export default{
     state:{
         tasks:[],
         tasksColumns:[],
-        tasksUrl: 'http://localhost:3200/tasks'
+        tasksUrl: 'http://localhost:3200/tasks',
+        tasksForUpdate:[]
     },
     mutations:{
         SET_TASKS_TO_STATE: (state, tasks) => {
@@ -13,6 +15,38 @@ export default{
         },
         SET_TASK_COLUMNS_TO_STATE: (state, tasksColumns) => {
             state.tasksColumns = tasksColumns
+        },
+        CHECK_EXPIREDTASKS: (state) => {
+            console.log('-----------ВЫЗВАНА МУТАЦИЯ CHECK_EXPERIEDTASKS')
+            let current = moment().format('YYYY/MM/DD')
+            console.log(`tasks.js: мутация check_expiredtasks : Текущая дата ${current}`)
+            let curDate = current.split('/')
+            console.log(`tasks.js: мутация check_expiredtasks : Переменная ${curDate}`)
+            let counter=0;
+            console.log(`tasks.js: мутация check_expiredtasks : Счетчик ${counter}`)
+            console.log(`
+                tasks.js: мутация check_expiredtasks: Проверка State.Tasks: ${state.tasks}
+            `)
+            state.tasks.forEach(function (element) {
+                console.log(`tasks.js: мутация check_expiredtasks : стрелочная функция внутри forEach: Счетчик ${counter}`)
+                console.log(`//...// Вывод условия: ${element.isExpired}`)
+                if (element.isExpired == false) {
+                    let x = element.endDate.split('/')
+                    console.log(`tasks.js: мутация check_expiredtasks : стрелочная функция внутри forEach: Условие выполняется: Переменная x: ${x}`)
+                    if (x[0] < curDate[0]) {
+                        element.isExpired = true
+                    } else if (x[0] === curDate[0] && x[1] < curDate[1]) {
+                        element.isExpired = true
+                    } else if (x[0] === curDate[0] && x[1] === curDate[1] && x[2] < curDate[2]) {
+                        element.isExpired = true
+                    }
+                    if (element.isExpired) {
+                        element.tags.push('Просрочено')
+                        state.tasksForUpdate.push(counter)
+                    }
+                    counter++
+                }
+            })
         }
     },
     actions:{
@@ -39,6 +73,7 @@ export default{
         })
         },
         async GET_TASKS_FROM_API({commit}){
+            console.log(`Вызвана async GET_TASKS_FROM_API`)
             try {
                 const tasks = await axios('http://localhost:3200/tasks', {
                     method: "GET"
@@ -61,6 +96,32 @@ export default{
                 console.log(error)
                 return error
             }
+        },
+        async CHECK_EXPIREDTASKS_AND_UPDATE_TAGS({commit,state, getters}){
+            console.log('_----Вызвана async CHECK_EXPIREDTASKS_AND_UPDATE_TAGS')
+            console.log(`ASYNC CHECK_EXPIREDTASKS_AND_UPDATE_TAGS: State.tasksForUpdate перед dispatch:`)
+            console.log(state.tasksForUpdate)
+            console.log(`ASYNC CHECK_EXPIREDTASKS_AND_UPDATE_TAGS: getters.tasks перед dispatch: ${getters.TASKS}.`)
+            this.dispatch('GET_TASKS_FROM_API')
+            console.log(`ASYNC CHECK_EXPIREDTASKS_AND_UPDATE_TAGS: State.tasksForUpdate после dispatch: ${state.tasksForUpdate}.`)
+            console.log(state.tasksForUpdate)
+            console.log(`ASYNC CHECK_EXPIREDTASKS_AND_UPDATE_TAGS: getters.tasks после dispatch: ${getters.TASKS}.`)
+            commit('CHECK_EXPIREDTASKS')
+            console.log(state.tasksForUpdate)
+            if(state.tasksForUpdate.length>0){
+                state.tasksForUpdate.forEach(async (element)=>{
+                    try{
+                        const res = await axios.put(state.tasksUrl+'/'+state.tasks.element.id,state.tasks.element)
+                        console.log('Updating '+element+'-th element')
+                        console.log(res)
+                        message('Обнаружены новые просроченные задачи!')
+                    }catch(e){
+                        console.error(e)
+                    }
+                })
+                state.tasksForUpdate=[]
+            }
+            this.dispatch('GET_TASKS_FROM_API')
         }
     },
     getters:{

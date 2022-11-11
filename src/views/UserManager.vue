@@ -48,9 +48,9 @@ export default{
             },
         },
         methods: {
-            deleteUser(){
+            async deleteUser(){
                 if(this.selectedRowKeys.length>0){
-                    this.$store.dispatch('DELETE_JOBLIST_FROM_API',this.selectedRowKeys)
+                    await this.$store.dispatch('DELETE_JOBLIST_FROM_API',this.selectedRowKeys)
                     this.selectedRowKeys=[]
                 }else{message.error('Не выбрано ни одного пользователя',5)}
             },

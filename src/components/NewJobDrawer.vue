@@ -74,13 +74,13 @@
       onClose() {
         this.visible = false;
       },
-      onSubmit(){
+      async onSubmit(){
         const user = {
           job:this.job,
           notes:this.notes
         }
         //this.$store.commit('ADD_NEWJOB',user)
-        axios.post('http://localhost:3200/jobs',user)
+        await axios.post('http://localhost:3200/jobs',user)
         .then(res => {
           console.log(res)
           this.visible = false

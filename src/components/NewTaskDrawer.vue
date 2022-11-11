@@ -36,10 +36,9 @@
           <a-row :gutter="16">
             <a-col :span="24">
               <a-form-item label="Даты начала и окончания">
-                <!-- :default-value="dates" -->
-                <a-range-picker                
+                <a-range-picker
+                @change="changeDate"                
                 :format="dateFormat"
-                v-model="dates"
                 />
               </a-form-item>
             </a-col>
@@ -86,18 +85,23 @@
     data() {
       return {
         dateFormat: 'YYYY/MM/DD',
-        dates: [moment('2022/01/01', 'YYYY/MM/DD'), moment('2023/01/01', 'YYYY/MM/DD')],
+        dates: [],
         form: this.$form.createForm(this),
         visible: false,
         startDate: "",
         endDate:"",
         name:"",
         user:"",
-        description:""
+        description:"",
+        isExpired: false
       };
     },
     methods: {
         moment,
+      changeDate(date, dateString) {
+        this.startDate=dateString[0]
+        this.endDate=dateString[1]
+      },
       showDrawer() {
         this.visible = true;
         this.name='';
@@ -107,16 +111,17 @@
       onClose() {
         this.visible = false;
       },
-      onSubmit() {
+      async onSubmit() {
         const newTask={
-          key:this.$store.getters.TASKS.length+1,
           name: this.name,
           user: this.user,
           description: this.description,
-          startDate: this.dates[0]._i,
-          endDate: this.dates[1]._i
+          startDate: this.startDate,
+          endDate: this.endDate,
+          tags: [],
+          isExpired: this.isExpired
         }
-        this.$store.dispatch('ADD_NEWTASK',newTask)
+        await this.$store.dispatch('ADD_NEWTASK',newTask)
         this.visible = false
       }
     },

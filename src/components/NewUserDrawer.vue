@@ -110,7 +110,7 @@
       onClose() {
         this.visible = false
       },
-      onSubmit(){
+      async onSubmit(){
         let newname = this.lastName+' '+this.firstName[0]+'. '+this.patronym[0]+'.'
         const newUser = {
           firstName:this.firstName,
@@ -120,7 +120,7 @@
           description:this.description,
           name:newname
         }
-        this.$store.dispatch('ADD_NEWUSER',newUser)
+        await this.$store.dispatch('ADD_NEWUSER',newUser)
         this.visible = false
         // axios.post('http://localhost:3200/jobList',newUser)
         // .then(res=>{

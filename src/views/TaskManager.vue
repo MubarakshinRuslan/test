@@ -20,7 +20,15 @@
             :columns="this.$store.getters.TASK_COLS"
             :row-selection="{selectedRowKeys:selectedRowKeys, onChange: onSelectChange}"
             >
-
+                <span slot="tags" slot-scope="tags">
+                    <a-tag
+                        v-for="tag in tags"
+                        :key="tag"
+                        :color="tag==='Просрочено' ? 'volcano' : 'green'"
+                    >
+                    {{tag.toUpperCase()}}
+                    </a-tag>
+                </span>
             </a-table>
         </div>
     </div>
@@ -29,11 +37,10 @@
 import AppNewTaskDrawer from '@/components/NewTaskDrawer.vue'
 import Vue from 'vue'
 import {message} from 'ant-design-vue'
-//import axios from 'axios'
 Vue.component('app-new-task-drawer', AppNewTaskDrawer)
     export default{
-        created(){
-            
+        async created(){
+            await this.$store.dispatch('CHECK_EXPIREDTASKS_AND_UPDATE_TAGS')
         },
         data(){
             return{
@@ -46,9 +53,9 @@ Vue.component('app-new-task-drawer', AppNewTaskDrawer)
             },
         },
         methods:{
-            deleteTask(){
+            async deleteTask(){
                 if(this.selectedRowKeys.length>0){
-                    this.$store.dispatch('DELETE_TASKS_FROM_API',this.selectedRowKeys)
+                    await this.$store.dispatch('DELETE_TASKS_FROM_API',this.selectedRowKeys)
                     this.selectedRowKeys=[]
                 }else{message.error('Не выбрано ни одной задачи!',5)}
             },
@@ -57,9 +64,6 @@ Vue.component('app-new-task-drawer', AppNewTaskDrawer)
             }
         },
         mounted() {
-            
-            console.log(this.$store.state.tasks)
-            console.log(this.$store.state)
         }
     }
 </script>
