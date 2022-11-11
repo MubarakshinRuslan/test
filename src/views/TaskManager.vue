@@ -28,6 +28,7 @@
 <script>
 import AppNewTaskDrawer from '@/components/NewTaskDrawer.vue'
 import Vue from 'vue'
+import {message} from 'ant-design-vue'
 //import axios from 'axios'
 Vue.component('app-new-task-drawer', AppNewTaskDrawer)
     export default{
@@ -39,15 +40,17 @@ Vue.component('app-new-task-drawer', AppNewTaskDrawer)
                 selectedRowKeys:[]
             }
         },
+        computed:{
+            hasSelected(){
+                return this.selectedRowKeys.length>0;
+            },
+        },
         methods:{
             deleteTask(){
                 if(this.selectedRowKeys.length>0){
-                    for(let i = 0; i<this.selectedRowKeys.length;i++){
-                        const varUrl = 'http://localhost:3200/tasks/'+this.selectedRowKeys[i]
-                        this.$store.dispatch('DELETE_TASKS_FROM_API',varUrl)
-                    }
+                    this.$store.dispatch('DELETE_TASKS_FROM_API',this.selectedRowKeys)
                     this.selectedRowKeys=[]
-                }
+                }else{message.error('Не выбрано ни одной задачи!',5)}
             },
             onSelectChange(selectedRowKeys){
                 this.selectedRowKeys=selectedRowKeys

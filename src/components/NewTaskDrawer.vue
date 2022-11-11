@@ -36,8 +36,8 @@
           <a-row :gutter="16">
             <a-col :span="24">
               <a-form-item label="Даты начала и окончания">
-                <a-range-picker
-                :default-value="dates"
+                <!-- :default-value="dates" -->
+                <a-range-picker                
                 :format="dateFormat"
                 v-model="dates"
                 />

@@ -27,17 +27,17 @@ export default{
             }
         },
         async DELETE_TASKS_FROM_API({state},rowId){
-            this.dispatch('GET_TASKS_FROM_API')//загрузка массива JOBLIST из сервера в STORE
-            rowId.forEach(async (element)=>{try{
-                const j = await axios.delete(state.userUrl+'/'+element)//удаление записи
-                console.log(j)
-                message.success(`Запись удалена`,5)
-            }catch(e){
-                console.error(e)
-                message.error('Ошибка при удалении из базы!',5)
-            }
             this.dispatch('GET_TASKS_FROM_API')
-        })},
+            rowId.forEach(async (element)=> {try{
+                const j = await axios.delete(state.tasksUrl+'/'+element)
+                console.log(j)
+                message.success('Задача удалена!',5)
+                this.dispatch('GET_TASKS_FROM_API')
+            }catch(e){
+                message.error('Ошибка при удалении задачи!',5)
+            }
+        })
+        },
         async GET_TASKS_FROM_API({commit}){
             try {
                 const tasks = await axios('http://localhost:3200/tasks', {

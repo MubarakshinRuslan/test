@@ -1,19 +1,9 @@
 {
   "jobs": [
     {
-      "job": "Должность1",
+      "job": "Программист-стажер",
       "notes": "",
       "id": 1
-    },
-    {
-      "job": "Должность2",
-      "notes": "Дол",
-      "id": 2
-    },
-    {
-      "job": "Третья должность",
-      "notes": "фыв",
-      "id": 3
     }
   ],
   "jobCols": [
@@ -38,30 +28,21 @@
   "tasks": [
     {
       "key": 1,
-      "name": "ФЫ",
-      "user": "Фамил И. О.",
-      "description": "фЫв",
+      "name": "Написать тестовый сайт",
+      "user": "Мубаракшин Р. Р.",
+      "description": "",
       "startDate": "2022/01/01",
       "endDate": "2023/01/01",
       "id": 1
     },
     {
       "key": 2,
-      "name": "ФЫА",
-      "user": "Фамил И. О.",
-      "description": "ыфвА",
+      "name": "Изучить Vue.js",
+      "user": "Мубаракшин Р. Р.",
+      "description": "",
       "startDate": "2022/01/01",
       "endDate": "2023/01/01",
       "id": 2
-    },
-    {
-      "key": 3,
-      "name": "sadsad",
-      "user": "Фамил И. О.",
-      "description": "asda",
-      "startDate": "2022/01/01",
-      "endDate": "2023/01/01",
-      "id": 3
     }
   ],
   "tasksColumns": [
@@ -93,12 +74,12 @@
   ],
   "jobList": [
     {
-      "firstName": "Им",
-      "lastName": "Фамил",
-      "patronym": "ОТ",
-      "job": "Должность2",
-      "description": "Ллывф",
-      "name": "Фамил И. О.",
+      "firstName": "Руслан",
+      "lastName": "Мубаракшин",
+      "patronym": "Ринатович",
+      "job": "Программист-стажер",
+      "description": "",
+      "name": "Мубаракшин Р. Р.",
       "id": 1
     }
   ],
