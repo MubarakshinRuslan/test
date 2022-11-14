@@ -17,7 +17,7 @@
             :data-source="this.$store.getters.JOBS"
             :columns="this.$store.getters.JOB_COLS"
             :row-selection="{onChange: onSelectChange}"
-            >                
+            >             
             </a-table>
         </div>
     </div>
@@ -28,18 +28,22 @@ import AppNewJobDrawer from '@/components/NewJobDrawer.vue'
 import {message} from 'ant-design-vue'
 Vue.component('app-new-job-drawer', AppNewJobDrawer)
     export default{
+        selRowKeys(){
+            return this.selectedRowKeys
+        },
         created(){
             
         },
         data(){
             return{
+                showModal: false,
                 selectedRowKeys:[]
             }
         },
         computed:{
             hasSelected(){
                 return this.selectedRowKeys.length>0;
-            },
+            }
         },
         methods:{
             async deleteJob(){

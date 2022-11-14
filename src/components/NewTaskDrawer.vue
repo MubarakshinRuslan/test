@@ -93,7 +93,6 @@
         name:"",
         user:"",
         description:"",
-        isExpired: false
       };
     },
     methods: {
@@ -119,7 +118,6 @@
           startDate: this.startDate,
           endDate: this.endDate,
           tags: [],
-          isExpired: this.isExpired
         }
         await this.$store.dispatch('ADD_NEWTASK',newTask)
         this.visible = false

@@ -63,7 +63,6 @@
   </template>
   
 <script>
-  import axios from 'axios'
   export default {
     methods: {
       showDrawer() {
@@ -77,17 +76,9 @@
       async onSubmit(){
         const user = {
           job:this.job,
-          notes:this.notes
-        }
-        //this.$store.commit('ADD_NEWJOB',user)
-        await axios.post('http://localhost:3200/jobs',user)
-        .then(res => {
-          console.log(res)
+          notes:this.notes}
+          await this.$store.dispatch('ADD_NEWJOB',user)
           this.visible = false
-          this.$store.dispatch('GET_JOBS_FROM_API')
-          this.$store.dispatch('GET_JOB_COLS_FROM_API')
-        })
-        .catch(e => {console.error(e)})      
       }
     },
     data() {

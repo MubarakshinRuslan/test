@@ -21,13 +21,15 @@
             :row-selection="{selectedRowKeys:selectedRowKeys, onChange: onSelectChange}"
             >
                 <span slot="tags" slot-scope="tags">
-                    <a-tag
+                    <a-space size="small">
+                        <a-tag
                         v-for="tag in tags"
                         :key="tag"
                         :color="tag==='Просрочено' ? 'volcano' : 'green'"
-                    >
-                    {{tag.toUpperCase()}}
-                    </a-tag>
+                        >
+                            {{tag.toUpperCase()}}
+                        </a-tag>
+                    </a-space>
                 </span>
             </a-table>
         </div>
@@ -37,10 +39,11 @@
 import AppNewTaskDrawer from '@/components/NewTaskDrawer.vue'
 import Vue from 'vue'
 import {message} from 'ant-design-vue'
+
 Vue.component('app-new-task-drawer', AppNewTaskDrawer)
-    export default{
-        async created(){
-            await this.$store.dispatch('CHECK_EXPIREDTASKS_AND_UPDATE_TAGS')
+    
+export default{
+        created(){
         },
         data(){
             return{
@@ -66,4 +69,5 @@ Vue.component('app-new-task-drawer', AppNewTaskDrawer)
         mounted() {
         }
     }
+
 </script>

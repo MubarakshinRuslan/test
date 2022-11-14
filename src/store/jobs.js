@@ -15,7 +15,7 @@ export default{
                 message.success('Новая должность добавлена!',5)
                 this.dispatch('GET_JOBS_FROM_API')
             }catch(e){
-                message.error('Ошибка при добавлении новой должности',5)
+                message.error('Ошибка при добавлении новой должности!',5)
         }
         },
         async DELETE_JOB_FROM_API({state},rowId){
@@ -26,7 +26,7 @@ export default{
                 message.success('Запись удалена',5)
                 this.dispatch('GET_JOBS_FROM_API')
             }catch(e){
-                message.error('Ошибка при удалении должности',5)
+                message.error('Ошибка при удалении должности!',5)
             }
         })
         },
@@ -35,9 +35,11 @@ export default{
                 const jobs = await axios('http://localhost:3200/jobs',{
                     method: "GET"
                 })
+                message.success('Данные таблицы должностей загружены!')
                 commit('SET_JOBS_TO_STATE', jobs.data)
                 return jobs
             }catch(error){
+                message.error('Ошибка! Данные таблицы должностей не загружены')
                 console.error(error)
                 return error
             }
@@ -47,15 +49,34 @@ export default{
                 const jobCols = await axios('http://localhost:3200/jobcols',{
                     method: "GET"
                 })
+                message.success('Таблица должностей загружена!')
                 commit('SET_JOB_COLS_TO_STATE',jobCols.data)
                 return jobCols
             }catch(error){
+                message.error('Ошибка! Таблица должностей не загружена!')
                 console.error(error)
                 return error
             }
         }
     },
     mutations:{
+        SET_DEPENDENCE_FROM_JOBLIST: (state, user) => {
+            //// назначает зависимости из joblist
+            ////
+            ////////////////////////////////////////////
+            state.jobs.forEach(element =>{
+                if(element.job.includes(user)){
+                    element.dependencies.push(user)
+                }
+            })
+        },
+        DELETE_DEPENDENCE_FROM_JOBLIST: (state, user) => {
+            state.jobs.forEach(element =>{
+                if(element.job.includes(user)){
+                    element.dependencies.splice(element.dependencies.indexOf(user),1)
+                }
+            })
+        },
         SET_JOBS_TO_STATE: (state, jobs) => {
             state.jobs = jobs
         },

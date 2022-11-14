@@ -8,7 +8,6 @@
         <div>
             <a-space size="small"> 
                 <app-new-user-drawer/>
-                <a-button >Изменить пользователя</a-button>
                 <a-button @click="deleteUser">Удалить пользователя</a-button>
             </a-space> 
         </div>
@@ -30,15 +29,10 @@
 import Vue from 'vue'
 import AppNewUserDrawer from '@/components/NewUserDrawer.vue'
 import {message} from 'ant-design-vue'
-//import axios from 'axios'
 Vue.component('app-new-user-drawer', AppNewUserDrawer)
 export default{
-        created(){
-            
-        },
         data(){
             return{
-                //dataSource: jobList
                 selectedRowKeys:[]
             }
         },

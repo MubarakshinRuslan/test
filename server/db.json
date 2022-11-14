@@ -1,54 +1,9 @@
 {
   "jobs": [
     {
-      "job": "Эколог",
-      "notes": "",
+      "job": "Новая должность",
+      "notes": "Новая должность",
       "id": 1
-    },
-    {
-      "job": "Стрелочник",
-      "notes": "",
-      "id": 2
-    },
-    {
-      "job": "Крупье",
-      "notes": "",
-      "id": 3
-    },
-    {
-      "job": "Продавец",
-      "notes": "",
-      "id": 4
-    },
-    {
-      "job": "Правовед",
-      "notes": "",
-      "id": 5
-    },
-    {
-      "job": "Формовщик",
-      "notes": "",
-      "id": 6
-    },
-    {
-      "job": "Связист",
-      "notes": "",
-      "id": 7
-    },
-    {
-      "job": "Ветеринар",
-      "notes": "",
-      "id": 8
-    },
-    {
-      "job": "Геодезист",
-      "notes": "",
-      "id": 9
-    },
-    {
-      "job": "Трейдер",
-      "notes": "",
-      "id": 10
     }
   ],
   "jobCols": [
@@ -59,6 +14,13 @@
     {
       "title": "Дополнительная информация",
       "dataIndex": "notes"
+    },
+    {
+      "title": "Действия",
+      "dataIndex": "actions",
+      "scopedSlots": {
+        "customRender": "actions"
+      }
     }
   ],
   "auth": [
@@ -68,38 +30,7 @@
       "password": "123456"
     }
   ],
-  "tasks": [
-    {
-      "name": "Продажа 30% акций",
-      "user": "Алешин С. А.",
-      "description": "",
-      "startDate": "2022/11/11",
-      "endDate": "2022/11/25",
-      "tags": [],
-      "isExpired": false,
-      "id": 1
-    },
-    {
-      "name": "Установка новых ценников товаров",
-      "user": "Симонов Г. В.",
-      "description": "",
-      "startDate": "2022/11/12",
-      "endDate": "2022/11/13",
-      "tags": [],
-      "isExpired": false,
-      "id": 2
-    },
-    {
-      "name": "Проверить влияние выбросов предприятия на окружающую среду",
-      "user": "Иванов И. И.",
-      "description": "",
-      "startDate": "2022/11/01",
-      "endDate": "2022/11/10",
-      "tags": [],
-      "isExpired": false,
-      "id": 3
-    }
-  ],
+  "tasks": [],
   "tasksColumns": [
     {
       "title": "Название",
@@ -144,28 +75,10 @@
       "firstName": "Иван",
       "lastName": "Иванов",
       "patronym": "Иванович",
-      "job": "Эколог",
-      "description": "",
+      "job": "Новая должность",
+      "description": "О",
       "name": "Иванов И. И.",
       "id": 1
-    },
-    {
-      "firstName": "Глеб",
-      "lastName": "Симонов",
-      "patronym": "Вадимович",
-      "job": "Продавец",
-      "description": "",
-      "name": "Симонов Г. В.",
-      "id": 2
-    },
-    {
-      "firstName": "Сергей",
-      "lastName": "Алешин",
-      "patronym": "Алексеевич",
-      "job": "Трейдер",
-      "description": "",
-      "name": "Алешин С. А.",
-      "id": 3
     }
   ],
   "jobListCols": [
