@@ -21,12 +21,21 @@ export default{
         async DELETE_JOB_FROM_API({state},rowId){
             this.dispatch('GET_JOBS_FROM_API')
             rowId.forEach(async (element)=> {try{
-                const j = await axios.delete(state.jobsUrl+'/'+element)
-                console.log(j)
-                message.success('Запись удалена',5)
-                this.dispatch('GET_JOBS_FROM_API')
+                const var1 = state.jobs.at(element).job
+                const md = await this.$store.dispatch('matchDependencies',var1)
+                console.log(md)
+                if(!(this.$store.getters.getIsDependent)){
+                    const j = await axios.delete(state.jobsUrl+'/'+element)
+                    console.log(j)
+                    message.success('Запись удалена',5)
+                    this.dispatch('GET_JOBS_FROM_API')
+                }else{throw 'dependent'}
             }catch(e){
-                message.error('Ошибка при удалении должности!',5)
+                if(e === 'dependent'){
+                    message.error('Невозможно удалить так, как используется как должность одного из пользователей',10)
+                }else{
+                    message.error('Ошибка при удалении должности!',5)
+                }
             }
         })
         },
@@ -60,23 +69,6 @@ export default{
         }
     },
     mutations:{
-        SET_DEPENDENCE_FROM_JOBLIST: (state, user) => {
-            //// назначает зависимости из joblist
-            ////
-            ////////////////////////////////////////////
-            state.jobs.forEach(element =>{
-                if(element.job.includes(user)){
-                    element.dependencies.push(user)
-                }
-            })
-        },
-        DELETE_DEPENDENCE_FROM_JOBLIST: (state, user) => {
-            state.jobs.forEach(element =>{
-                if(element.job.includes(user)){
-                    element.dependencies.splice(element.dependencies.indexOf(user),1)
-                }
-            })
-        },
         SET_JOBS_TO_STATE: (state, jobs) => {
             state.jobs = jobs
         },
@@ -90,6 +82,9 @@ export default{
         },
         JOB_COLS (state) {
             return state.jobCols
+        },
+        JOB_JOB ({state}, id) {
+            return state.jobs.at(id).job
         }
     }
 }

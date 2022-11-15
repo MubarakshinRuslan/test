@@ -40,9 +40,8 @@ export default{
         }
         },
     actions:{
-        async ADD_NEWTASK({state,commit},task){
+        async ADD_NEWTASK({state},task){
             try{
-                commit('SET_DEPENDENCIES_FROM_TASKS', task.user)
                 const j = await axios.post(state.tasksUrl, task)
                 console.log(j)
                 message.success('Новая задача добавлена!',5)
@@ -51,7 +50,7 @@ export default{
                 message.error('Ошибка при создании новой задачи!',5)
             }
         },
-        async UPDATE_TASK({commit,state}){
+        async UPDATE_TASK({state, commit}){
             commit('CHECK_EXPIREDTASKS')
             if(state.tasksNeedToUpdate){
                 while(state.tasksForUpdate.length>0){
@@ -74,14 +73,13 @@ export default{
                 message.error('Ошибка при изменении задачи')
             }
         },
-        async DELETE_TASKS_FROM_API({state,commit},rowId){
+        async DELETE_TASKS_FROM_API({state},rowId){
             this.dispatch('GET_TASKS_FROM_API')
             rowId.forEach(async (element)=> {try{
-                commit('DELETE_DEPENDENCIES_FROM_TASKS',state.tasks.at(element).user)
-                const j = await axios.delete(state.tasksUrl+'/'+element)
-                console.log(j)
-                message.success('Задача удалена!',5)
-                this.dispatch('GET_TASKS_FROM_API')
+                    const j = await axios.delete(state.tasksUrl+'/'+element)
+                    console.log(j)
+                    message.success('Задача удалена!',5)
+                    this.dispatch('GET_TASKS_FROM_API')                
             }catch(e){
                 message.error('Ошибка при удалении задачи!',5)
             }

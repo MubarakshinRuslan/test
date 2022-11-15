@@ -1,8 +1,8 @@
 {
   "jobs": [
     {
-      "job": "Новая должность",
-      "notes": "Новая должность",
+      "job": "Полицейский",
+      "notes": "Олы",
       "id": 1
     }
   ],
@@ -23,14 +23,23 @@
       }
     }
   ],
-  "auth": [
+  "dependencies": [
     {
-      "id": "1",
-      "email": "admin@mail.ru",
-      "password": "123456"
+      "master": "",
+      "slave": ""
     }
   ],
-  "tasks": [],
+  "tasks": [
+    {
+      "name": "Патруль",
+      "user": "Иванов И. И.",
+      "description": "Лфывьюб ыдвжлфы ыфджвлыфжв фыжв ыф ылвыфв д фыжвджфылв.",
+      "startDate": "2022/11/01",
+      "endDate": "2022/11/24",
+      "tags": [],
+      "id": 1
+    }
+  ],
   "tasksColumns": [
     {
       "title": "Название",
@@ -72,11 +81,11 @@
   ],
   "jobList": [
     {
-      "firstName": "Иван",
-      "lastName": "Иванов",
+      "firstName": "Иванов",
+      "lastName": "Иван",
       "patronym": "Иванович",
-      "job": "Новая должность",
-      "description": "О",
+      "job": "Полицейский",
+      "description": "Жыдвт бьытфвж дфыэвл.",
       "name": "Иванов И. И.",
       "id": 1
     }

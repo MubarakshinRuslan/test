@@ -120,6 +120,7 @@
           tags: [],
         }
         await this.$store.dispatch('ADD_NEWTASK',newTask)
+        await this.$store.dispatch('addDependenceToApi',this.name, this.user)
         this.visible = false
       }
     },

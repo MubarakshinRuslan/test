@@ -122,6 +122,7 @@
         }
         try{
           await this.$store.dispatch('ADD_NEWUSER',newUser)
+          await this.$store.dispatch('addDependenceToApi',newname,this.job)
         }catch(e){console.error(e)}
         this.visible = false
       }
