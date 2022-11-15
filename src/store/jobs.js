@@ -60,23 +60,6 @@ export default{
         }
     },
     mutations:{
-        SET_DEPENDENCE_FROM_JOBLIST: (state, user) => {
-            //// назначает зависимости из joblist
-            ////
-            ////////////////////////////////////////////
-            state.jobs.forEach(element =>{
-                if(element.job.includes(user)){
-                    element.dependencies.push(user)
-                }
-            })
-        },
-        DELETE_DEPENDENCE_FROM_JOBLIST: (state, user) => {
-            state.jobs.forEach(element =>{
-                if(element.job.includes(user)){
-                    element.dependencies.splice(element.dependencies.indexOf(user),1)
-                }
-            })
-        },
         SET_JOBS_TO_STATE: (state, jobs) => {
             state.jobs = jobs
         },

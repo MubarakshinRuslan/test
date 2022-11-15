@@ -4,6 +4,8 @@ import moment from 'moment'
 
 export default{
     state:{
+        taskCounter:0,
+        taskPickerName:'',
         tasks:[],
         tasksColumns:[],
         tasksUrl: 'http://localhost:3200/tasks',
@@ -12,6 +14,9 @@ export default{
         tasksNeedToUpdate: false
     },
     mutations:{
+        SET_TASKPICKERNAME: (state, name) => {
+            state.taskPickerName = name
+        },
         SET_TASKS_TO_STATE: (state, tasks) => {
             state.tasks = tasks
             state.tasksIsLoaded = true
@@ -37,12 +42,20 @@ export default{
             }
             console.log(state.tasks)
             
+        },
+        ADDTASKCOUNTER: (state) => {
+            state.taskCounter++
         }
         },
     actions:{
-        async ADD_NEWTASK({state,commit},task){
+        async ADD_TASKCOUNTER({commit}){
+            commit('ADDTASKCOUNTER')
+        },
+        async SET_TASKPICKER_NAME({commit},name){
+            commit('SET_TASKPICKERNAME',name)
+        },
+        async ADD_NEWTASK({state},task){
             try{
-                commit('SET_DEPENDENCIES_FROM_TASKS', task.user)
                 const j = await axios.post(state.tasksUrl, task)
                 console.log(j)
                 message.success('Новая задача добавлена!',5)
@@ -74,10 +87,9 @@ export default{
                 message.error('Ошибка при изменении задачи')
             }
         },
-        async DELETE_TASKS_FROM_API({state,commit},rowId){
+        async DELETE_TASKS_FROM_API({state},rowId){
             this.dispatch('GET_TASKS_FROM_API')
             rowId.forEach(async (element)=> {try{
-                commit('DELETE_DEPENDENCIES_FROM_TASKS',state.tasks.at(element).user)
                 const j = await axios.delete(state.tasksUrl+'/'+element)
                 console.log(j)
                 message.success('Задача удалена!',5)
@@ -128,6 +140,12 @@ export default{
           return state.tasks.filter(i => {
             return i.isStarted
           })  
+        },
+        GET_TASKPICKERNAME(state){
+            return state.taskPickerName
+        },
+        GET_TASKCOUNTER(state){
+            return state.taskCounter
         }
     }
 }

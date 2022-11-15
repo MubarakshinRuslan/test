@@ -22,14 +22,7 @@
           <a-row :gutter="16">
             <a-col :span="24">
               <a-form-item label="Исполнитель">
-                <a-select
-                  v-model="user"
-                  placeholder="Выберите исполнителя"
-                >
-                  <a-select-option v-for="i in this.$store.getters.JOB_LIST" :key="i.name">
-                    {{i.name}}
-                  </a-select-option>
-                </a-select>
+                <app-task-picker/>
               </a-form-item>
             </a-col>
           </a-row>
@@ -80,7 +73,10 @@
   </template>
   <script>
   //import axios from 'axios'
+  import Vue from 'vue'
+  import AppTaskPicker from '@/components/TaskPicker.vue'
   import moment from 'moment'
+  Vue.component('app-task-picker',AppTaskPicker)
   export default {
     data() {
       return {
@@ -113,7 +109,7 @@
       async onSubmit() {
         const newTask={
           name: this.name,
-          user: this.user,
+          user: this.$store.getters.GET_TASKPICKERNAME,
           description: this.description,
           startDate: this.startDate,
           endDate: this.endDate,

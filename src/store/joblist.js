@@ -13,55 +13,22 @@ export default{
         },
         SET_JOBLISTCOLS_TO_STATE: (state, jobListCols) => {
             state.jobListCols = jobListCols
-        },
-        SET_DEPENDENCIES_FROM_TASKS: (state, user) => {
-            /// назначает зависимости в state
-            ///
-            //////////////////////////////////////////
-            state.jobList.forEach(element=>{
-                if(element.name.includes(user)){
-                    element.dependencies.push(user)
-                }
-            })
-        },
-        DELETE_DEPENDENCIES_FROM_TASKS: (state, user) => {
-            /// удаляет зависимости из state
-            ///
-            ///////////////////////////////////////////
-            state.jobList.forEach(element=>{
-                if(element.name.includes(user)){
-                    element.dependencies.splice(element.dependencies.indexOf(user),1)
-                }
-            })
         }
     },
     actions:{
-        async SET_DEPENDENCIES_TO_JOBS({commit},name){
-            /// назначает зависимости в jobs
-            ///
-            ////////////////////////////////////////////
-            try{
-                commit('SET_DEPENDENCE_FROM_JOBLIST', name)
-                message.info('Новые зависимости были установлены')
-            }catch(e){
-                message.error('Ошибка! Зависимости не были установлены!')
-            }
-        },
-        async ADD_NEWUSER({state,commit},user){
+        async ADD_NEWUSER({state},user){
             try{
                 const j = await axios.post(state.userUrl,user)
                 console.log(j)
-                commit('SET_DEPENDENCE_FROM_JOBLIST', user.job)
                 message.success('Новый пользователь добавлен!',5)
                 this.dispatch('GET_JOBLIST_FROM_API')
             }catch(e){
                 message.error('Ошибка при добавлении нового пользователя!',5)
             }
         },
-        async DELETE_JOBLIST_FROM_API({state,commit},rowId){
+        async DELETE_JOBLIST_FROM_API({state},rowId){
             this.dispatch('GET_JOBLIST_FROM_API')//загрузка массива JOBLIST из сервера в STORE
             rowId.forEach(async (element)=>{try{
-                commit('DELETE_DEPENDENCE_FROM_JOBLIST', state.joblist.at(element).user)
                 const j = await axios.delete(state.userUrl+'/'+element)//удаление записи
                 console.log(j)
                 message.success(`Запись удалена`,5)
