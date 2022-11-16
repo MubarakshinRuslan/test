@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <a-button type="primary" @click="showDrawer"> <a-icon type="plus" /> Добавить пользователя </a-button>
@@ -8,59 +9,52 @@
     :body-style="{ paddingBottom: '80px' }"
     @close="onClose"
     >
-      <a-form :form="form" layout="vertical" hide-required-mark>
-        <a-row :gutter="16">
-          <a-col :span="8">
-            <a-form-item label="Фамилия">
-              <a-input
-              placeholder="Введите фамилию"
-              v-model="lastName"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="Имя">
-              <a-input
-              v-model="firstName"
-              placeholder="Введите имя"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="Отчество">
-              <a-input
-              v-model="patronym"
-              placeholder="Введите отчество"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="24">
-            <a-form-item label="Выберите должность">
-              <a-select
-              v-model="job"
-              placeholder="Выберите должность"
-              >
-                <a-select-option v-for="i in this.$store.getters.JOBS" :key="i.job">
-                  {{i.job}}
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="16">
-          <a-col :span="24">
-            <a-form-item label="Дополнительные заметки">
-              <a-textarea
-              :rows="4"
-              placeholder="Поле для дополнительных заметок"
-              v-model="description"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-      </a-form>
+    <a-form :form="form" layout="vertical" hide-required-mark>
+      <a-row :gutter="16">
+        <a-col :span="8">
+          <a-form-item label="Фамилия">
+            <a-input
+            placeholder="Введите фамилию"
+            v-model="lastName"
+            />
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-form-item label="Имя">
+            <a-input
+            v-model="firstName"
+            placeholder="Введите имя"
+            />
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-form-item label="Отчество">
+            <a-input
+            v-model="patronym"
+            placeholder="Введите отчество"
+            />
+          </a-form-item>
+        </a-col>
+      </a-row>
+      <a-row :gutter="16">
+        <a-col :span="24">
+          <a-form-item label="Выберите должность">
+            <app-user-picker/>
+          </a-form-item>
+        </a-col>
+      </a-row>
+      <a-row :gutter="16">
+        <a-col :span="24">
+          <a-form-item label="Дополнительные заметки">
+            <a-textarea
+            :rows="4"
+            placeholder="Поле для дополнительных заметок"
+            v-model="description"
+            />
+          </a-form-item>
+        </a-col>
+      </a-row>
+    </a-form>
       <div
       :style="{
         position: 'absolute',
@@ -82,10 +76,18 @@
         </a-button>
       </div>
     </a-drawer>
+    <a-drawer title="DRAWER" :visible="isVisible">
+      
+    </a-drawer>
   </div>
 </template>
   
 <script>
+  import AppUserPicker from '@/components/UserPicker.vue'
+  //import UserDrawerForm from './UserDrawerForm.vue'
+  import Vue from 'vue'
+  Vue.component('app-user-picker',AppUserPicker)
+  
   export default {
     data() {
       return {
@@ -93,19 +95,25 @@
         firstName:'',
         lastName:'',
         patronym:'',
-        job:'',
         description:'',
         form: this.$form.createForm(this),
         visible: false,
+        isVisible: false,
+        user: undefined,
       };
     },
+    // components: {
+    //   UserDrawerForm,
+    // },
     methods: {
       showDrawer() {
         this.visible = true
         this.firstName=''
         this.lastName=''
         this.patronym=''
-        this.job=''
+      },
+      openDrawer() {
+        this.isVisible = !this.isVisible
       },
       onClose() {
         this.visible = false
@@ -116,7 +124,7 @@
           firstName:this.firstName,
           lastName:this.lastName,
           patronym:this.patronym,
-          job:this.job,
+          job:this.$store.getters.NEW_JOB,
           description:this.description,
           name:newname
         }

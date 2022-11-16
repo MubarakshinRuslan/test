@@ -1,3 +1,4 @@
+
 <template>
     <div>
         <a-divider/>
@@ -5,7 +6,7 @@
         <a-divider/>
         <div>
             <a-space size="small">
-                <app-new-job-drawer/>
+                <app-new-job-drawer :item="{}"/>
                 <a-button @click="deleteJob">Удалить должность</a-button>
             </a-space>
         </div>
@@ -17,7 +18,8 @@
             :data-source="this.$store.getters.JOBS"
             :columns="this.$store.getters.JOB_COLS"
             :row-selection="{onChange: onSelectChange}"
-            >             
+            >
+                    
             </a-table>
         </div>
     </div>
@@ -26,17 +28,13 @@
 import Vue from 'vue'
 import AppNewJobDrawer from '@/components/NewJobDrawer.vue'
 import {message} from 'ant-design-vue'
-Vue.component('app-new-job-drawer', AppNewJobDrawer)
+Vue.component('app-new-job-drawer',AppNewJobDrawer)
     export default{
-        selRowKeys(){
-            return this.selectedRowKeys
-        },
         created(){
             
         },
         data(){
             return{
-                showModal: false,
                 selectedRowKeys:[]
             }
         },
@@ -54,6 +52,7 @@ Vue.component('app-new-job-drawer', AppNewJobDrawer)
             },
             onSelectChange(selectedRowKeys){
                 this.selectedRowKeys = selectedRowKeys;
+                this.$store.dispatch('SET_SELJOBLISTROWS',selectedRowKeys)
             }
         }
     }

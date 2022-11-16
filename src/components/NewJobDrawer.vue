@@ -1,5 +1,7 @@
-<template>
+
+  <template>
     <div>
+      <div>
       <a-button type="primary" @click="showDrawer"> <a-icon type="plus" /> Добавить должность </a-button>
       <a-drawer
         title="Добавить должность"
@@ -59,6 +61,7 @@
           </a-button>
         </div>
       </a-drawer>
+      </div>
     </div>
   </template>
   
@@ -87,7 +90,11 @@
           job:'',
           notes:''
         }
-      }
+      },
+      props: {
+        item: Object,
+      },
     }
+
 </script>
   

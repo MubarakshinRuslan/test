@@ -11,7 +11,8 @@ export default{
         tasksUrl: 'http://localhost:3200/tasks',
         tasksForUpdate:[],
         tasksIsLoaded: false,
-        tasksNeedToUpdate: false
+        tasksNeedToUpdate: false,
+        tasksNeedToGet: false,
     },
     mutations:{
         SET_TASKPICKERNAME: (state, name) => {
@@ -20,7 +21,8 @@ export default{
         SET_TASKS_TO_STATE: (state, tasks) => {
             state.tasks = tasks
             state.tasksIsLoaded = true
-            state.tasksNeedToUpdate = false
+            state.tasksNeedToUpdate = false,
+            state.tasksNeedToGet = false
         },
         SET_TASK_COLUMNS_TO_STATE: (state, tasksColumns) => {
             state.tasksColumns = tasksColumns
@@ -30,18 +32,54 @@ export default{
                 let currentDate = moment().format('YYYY/MM/DD')
                 let count = 0
                 state.tasks.forEach(element => {
-                    if(!(element.tags.includes('Просрочено'))){
-                        if(element.endDate<currentDate){
-                            element.tags.push('Просрочено')
-                            state.tasksForUpdate.push(count)
+                    if(!(element.tags.includes('Выполнено'))){
+                        if(!(element.tags.includes('Просрочено'))){
+                            if(element.endDate<currentDate){
+                                state.tasksNeedToGet=true
+                                element.tags.push('Просрочено')
+                                state.tasksForUpdate.push(count)
+                            }
                         }
-                    }                    
+                    }                                        
                     count++;
                 });
                 state.tasksNeedToUpdate = state.tasksForUpdate.length>0 ? true : false
             }
-            console.log(state.tasks)
-            
+        },
+        CHECK_STARTEDTASKS: (state) => {
+            if(state.tasksIsLoaded){
+                let currentDate = moment().format('YYYY/MM/DD')
+                let count = 0
+                state.tasks.forEach(element => {
+                    if(!(element.tags.includes('Выполнено'))){
+                        if(!(element.tags.includes('В работе'))){
+                            if(element.startDate<currentDate){
+                                state.tasksNeedToGet=true
+                                element.tags.push('В работе')
+                                state.tasksForUpdate.push(count)
+                            }
+                        }
+                    }                    
+                    count++
+                })
+                state.tasksNeedToUpdate = state.tasksForUpdate.length>0 ? true : false
+            }
+        },
+        CHANGE_TASK_COMPLETE: (state, id) => {
+            if(state.tasksIsLoaded){
+                if(state.tasks.at(id-1).tags.includes('В работе')){
+                    state.tasks.at(id-1).tags.splice(state.tasks.at(id-1).tags.indexOf('В работе'),1)
+                    console.log(state.tasks.at(id-1).tags)
+                }
+                if(state.tasks.at(id-1).tags.includes('Просрочено')){
+                    state.tasks.at(id-1).tags.splice(state.tasks.at(id-1).tags.indexOf('Просрочено'),1)
+                    console.log(state.tasks.at(id-1).tags)
+                }
+                if(!(state.tasks.at(id-1).tags.includes('Выполнено'))){
+                    state.tasks.at(id-1).tags.push('Выполнено')
+                    console.log(state.tasks.at(id-1).tags)
+                }
+            }
         },
         ADDTASKCOUNTER: (state) => {
             state.taskCounter++
@@ -72,12 +110,46 @@ export default{
                     try {
                         const f = await axios.put(state.tasksUrl+'/'+(currentElement+1),state.tasks[currentElement])
                         console.log(f)
-                        message.success('Обнаружена устаревшая задача!')
+                        message.success('Атрибуты просроченных задач обновлены!')
                     } catch (error) {
-                        message.error('Ошибка при обновлении атрибутов устаревшей задачи!')
+                        message.error('Ошибка при обновлении атрибутов просроченной задачи!')
                         console.error(error)
                     }
                 }
+            }
+            if(state.tasksNeedToGet){
+                this.dispatch('GET_TASKS_FROM_API')
+            }
+        },
+        async MAKE_TASKS_COMPLETED({commit,state},rowId){
+            rowId.forEach(async element => {
+                try{
+                    commit('CHANGE_TASK_COMPLETE',element)
+                    const m = await axios.put(state.tasksUrl+'/'+element,state.tasks.at(element-1))
+                    console.log(m)
+                    message.success('Атрибут "выполнено" назначен!',0.5)
+                } catch(e){
+                    message.error('Ошибка при назначении атрибута "выполнено"',5)
+                }
+            })
+        },
+        async UPDATE_IFSTARTED({commit,state}){
+            commit('CHECK_STARTEDTASKS')
+            if(state.tasksNeedToUpdate){
+                while(state.tasksForUpdate.length>0){
+                    let currentElement = state.tasksForUpdate.pop()
+                    try {
+                        const f = await axios.put(state.tasksUrl+'/'+(currentElement+1),state.tasks[currentElement])
+                        console.log(f)
+                        message.success('Атрибуты начатых задач обновлены!')
+                    } catch (error) {
+                        message.error('Ошибка при обновлении атрибутов начатой задачи!')
+                        console.error(error)
+                    }
+                }
+            }
+            if(state.tasksNeedToGet){
+                this.dispatch('GET_TASKS_FROM_API')
             }
         },
         async EDIT_TASK(){
@@ -100,7 +172,6 @@ export default{
         })
         },
         async GET_TASKS_FROM_API({commit}){
-            console.log(`Вызвана async GET_TASKS_FROM_API`)
             try {
                 const tasks = await axios('http://localhost:3200/tasks', {
                     method: "GET"

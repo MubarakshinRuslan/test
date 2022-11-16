@@ -1,5 +1,16 @@
 {
-  "jobs": [],
+  "jobs": [
+    {
+      "job": "One",
+      "notes": "Ones",
+      "id": 1
+    },
+    {
+      "job": "MLM",
+      "notes": "mlmsad",
+      "id": 2
+    }
+  ],
   "jobCols": [
     {
       "title": "Должность",
@@ -8,13 +19,6 @@
     {
       "title": "Дополнительная информация",
       "dataIndex": "notes"
-    },
-    {
-      "title": "Действия",
-      "dataIndex": "actions",
-      "scopedSlots": {
-        "customRender": "actions"
-      }
     }
   ],
   "auth": [
@@ -24,19 +28,7 @@
       "password": "123456"
     }
   ],
-  "tasks": [
-    {
-      "name": "SMMM",
-      "user": "Новый сотрудник 2",
-      "description": "",
-      "startDate": "2022/11/01",
-      "endDate": "2022/11/14",
-      "tags": [
-        "Просрочено"
-      ],
-      "id": 1
-    }
-  ],
+  "tasks": [],
   "tasksColumns": [
     {
       "title": "Название",
@@ -80,22 +72,6 @@
     {
       "name": "Новый сотрудник 0",
       "id": 1
-    },
-    {
-      "name": "Новый сотрудник 1",
-      "id": 2
-    },
-    {
-      "name": "Новый сотрудник 2",
-      "id": 3
-    },
-    {
-      "name": "Новый сотрудник 3",
-      "id": 4
-    },
-    {
-      "name": "Новый сотрудник 0",
-      "id": 5
     }
   ],
   "jobListCols": [

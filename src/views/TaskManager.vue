@@ -8,6 +8,7 @@
         <div>
             <a-space size="small">
                 <app-new-task-drawer/>
+                <a-button @click="completeTask">Сделать отмеченные задачи выполненными</a-button>
                 <a-button @click="deleteTask">Удалить задачу</a-button>
             </a-space>
         </div>
@@ -56,6 +57,12 @@ export default{
             },
         },
         methods:{
+            async completeTask(){
+                if(this.selectedRowKeys.length>0){
+                    await this.$store.dispatch('MAKE_TASKS_COMPLETED',this.selectedRowKeys)
+                    this.selectedRowKeys=[]
+                }else{message.error('Не выбрано ни одной задачи!',5)}
+            },
             async deleteTask(){
                 if(this.selectedRowKeys.length>0){
                     await this.$store.dispatch('DELETE_TASKS_FROM_API',this.selectedRowKeys)

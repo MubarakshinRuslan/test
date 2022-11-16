@@ -3,19 +3,44 @@ import {message} from 'ant-design-vue'
 
 export default{
     state:{
+        jobListEdit:true,
+        selectedJobListRows:[],
+        newJob:'',
+        newJobCounter:'',
         jobList: [],
         jobListCols: [],
         userUrl: 'http://localhost:3200/joblist',
     },
     mutations:{
+        SET_JOBLISTEDIT: (state) =>{
+            state.jobListEdit = state.selectedJobListRows.length < 0 ? true : false
+        },
+        SET_SELECTEDJOBLISTROWS: (state, rows) => {
+            state.selectedJobListRows = rows
+        },
         SET_JOBLIST_TO_STATE: (state, jobList) => {
             state.jobList = jobList
         },
         SET_JOBLISTCOLS_TO_STATE: (state, jobListCols) => {
             state.jobListCols = jobListCols
+        },
+        JOBCOUNTER_INCREMENTATION: (state) => {
+            state.newJobCounter++
+        },
+        SET_NEWJOB: (state, job) => {
+            state.newJob = job
         }
     },
     actions:{
+        async SET_SELJOBLISTROWS({commit},rows){
+            commit('SET_SELECTEDJOBLISTROWS',rows)
+        },
+        async ADD_JOBCOUNTER({commit}){
+            commit('JOBCOUNTER_INCREMENTATION')
+        },
+        async SET_USERPICKER_NAME({commit},job){
+            commit('SET_NEWJOB',job)
+        },
         async ADD_NEWUSER({state},user){
             try{
                 const j = await axios.post(state.userUrl,user)
@@ -73,6 +98,18 @@ export default{
         },
         JOB_LIST_COLS(state){
             return state.jobListCols
+        },
+        NEW_JOB(state){
+            return state.newJob
+        },
+        GET_NEWJOBCOUNTER(state){
+            return state.newJobCounter
+        },
+        GET_SELECTEDJOBLISTROWS(state){
+            return state.selectedJobListRows
+        },
+        GET_JOBLISTEDIT(state){
+            return state.jobListEdit
         }
     }
 }

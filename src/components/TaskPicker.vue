@@ -1,5 +1,10 @@
 <template>
-    <a-select default-value="" v-model="name" @select="syncWithState">
+    <a-select 
+    show-search
+    default-value=""
+    v-model="name"
+    @select="syncWithState"
+    >
       <div slot="dropdownRender" slot-scope="menu">
         <v-nodes :vnodes="menu" />
         <a-divider style="margin: 4px 0;" />
@@ -8,7 +13,7 @@
           @mousedown="e => e.preventDefault()"
           @click="addItem"
         >
-          <a-icon type="plus" /> Add item
+          <a-icon type="plus" /> Добавить сотрудника
         </div>
       </div>
       <a-select-option v-for="i in this.$store.getters.JOB_LIST" :key="i.name">

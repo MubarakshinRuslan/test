@@ -7,7 +7,7 @@
       </div>
     </a-layout-content>
     <a-layout-footer style="text-align: center">
-      Ant Design ©2018 Created by Ant UED
+      ©2022
     </a-layout-footer>
   </a-layout>
 </template>
@@ -23,7 +23,8 @@ Vue.component('app-header-bar', HeaderBar)
       await this.$store.dispatch('GET_JOB_COLS_FROM_API')
       await this.$store.dispatch('GET_JOBLIST_FROM_API')
       await this.$store.dispatch('GET_JOBLISTCOLS_FROM_API')
-      await this.$store.dispatch('UPDATE_TASK')    
+      await this.$store.dispatch('UPDATE_TASK')
+      await this.$store.dispatch('UPDATE_IFSTARTED')    
     },
     data(){
       {
