@@ -3,7 +3,7 @@
   <div>
     <a-button type="primary" @click="showDrawer"> <a-icon type="plus" /> Добавить пользователя </a-button>
     <a-drawer
-    title="Добавить пользователя"
+    :title="drawerTitle"
     :width="720"
     :visible="visible"
     :body-style="{ paddingBottom: '80px' }"
@@ -72,25 +72,25 @@
           Отменить
         </a-button>
         <a-button type="primary" @click="onSubmit">
-          Добавить сотрудника
+          {{submitButtonText}}
         </a-button>
       </div>
-    </a-drawer>
-    <a-drawer title="DRAWER" :visible="isVisible">
-      
     </a-drawer>
   </div>
 </template>
   
 <script>
   import AppUserPicker from '@/components/UserPicker.vue'
-  //import UserDrawerForm from './UserDrawerForm.vue'
   import Vue from 'vue'
   Vue.component('app-user-picker',AppUserPicker)
   
   export default {
     data() {
       return {
+        forEditKey:0,
+        submitButtonText: 'Сохранить',
+        drawerIsEditor: false,
+        drawerTitle:'Добавить пользователя',
         name:'',
         firstName:'',
         lastName:'',
@@ -100,27 +100,48 @@
         visible: false,
         isVisible: false,
         user: undefined,
-      };
+      }
     },
-    // components: {
-    //   UserDrawerForm,
-    // },
     methods: {
       showDrawer() {
+        this.drawerIsEditor = false
         this.visible = true
-        this.firstName=''
-        this.lastName=''
-        this.patronym=''
+        this.drawerTitle = 'Добавить пользователя'
+        this.submitButtonText = 'Добавить пользователя'
+        
+        this.firstName = ''
+        this.lastName = ''
+        this.patronym = ''
+        this.description = ''
+
+      },
+      showDrawerEdit(key){
+        this.forEditKey = key
+        this.drawerIsEditor = true
+        this.visible = true
+        this.drawerTitle = 'Редактировать пользователя'
+        this.submitButtonText = 'Изменить пользователя'
+        const data = [...this.$store.getters.JOB_LIST]
+        let id = data.findIndex(element => element.id === key)
+        this.firstName = data.at(id).firstName
+        this.lastName = data.at(id).lastName
+        this.patronym = data.at(id).patronym
+        this.description = data.at(id).description
+
       },
       openDrawer() {
         this.isVisible = !this.isVisible
       },
       onClose() {
         this.visible = false
+        this.firstName = ''
+        this.lastName = ''
+        this.patronym = ''
+        this.description = ''
       },
       async onSubmit(){
         let newname = this.lastName+' '+this.firstName[0]+'. '+this.patronym[0]+'.'
-        const newUser = {
+        let newUser = {
           firstName:this.firstName,
           lastName:this.lastName,
           patronym:this.patronym,
@@ -128,10 +149,21 @@
           description:this.description,
           name:newname
         }
-        try{
-          await this.$store.dispatch('ADD_NEWUSER',newUser)
-        }catch(e){console.error(e)}
         this.visible = false
+        if(this.drawerIsEditor){
+          try{
+            newUser.id=this.forEditKey
+            await this.$store.dispatch('EDIT_USER_IN_API',newUser)
+          }catch(e){console.error(e)}
+          console.log(newUser)
+          console.log('пользователь изменен')
+        }else{
+          try{
+            await this.$store.dispatch('ADD_NEWUSER',newUser)
+          }catch(e){console.error(e)}
+          console.log(newUser)
+          console.log('пользователь создан')
+        }
       }
     },
   }

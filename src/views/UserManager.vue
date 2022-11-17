@@ -7,7 +7,9 @@
         <a-divider />
         <div>
             <a-space size="small"> 
-                <app-new-user-drawer/>
+                <app-new-user-drawer 
+                ref="userDrawer"
+                />
                 <a-button @click="deleteUser">Удалить пользователя</a-button>
             </a-space> 
         </div>
@@ -21,6 +23,11 @@
              row-key="id"
              :row-selection="{selectedRowKeys:selectedRowKeys, onChange: onSelectChange}"
             >
+                <template slot="actions" slot-scope="text,record">
+                        <a @click="() => onEdit(record.id)">Изменить</a>
+                        <a-divider type="vertical"/>
+                        <a @click="() => deleteSingle(record.id)">Удалить</a>
+                </template>
             </a-table>
         </div>
     </div>
@@ -42,6 +49,14 @@ export default{
             },
         },
         methods: {
+            onEdit(key){
+                this.$refs.userDrawer.showDrawerEdit(key)
+            },
+            async deleteSingle(key){
+                const keys = []
+                keys.push(key)
+                await this.$store.dispatch('DELETE_JOBLIST_FROM_API',keys)
+            },
             async deleteUser(){
                 if(this.selectedRowKeys.length>0){
                     await this.$store.dispatch('DELETE_JOBLIST_FROM_API',this.selectedRowKeys)
@@ -49,8 +64,8 @@ export default{
                 }else{message.error('Не выбрано ни одного пользователя',5)}
             },
             onSelectChange(selectedRowKeys){
-                console.log('selectedRowKeys changed: ', selectedRowKeys);
-                this.selectedRowKeys = selectedRowKeys;
+                console.log('selectedRowKeys changed: ', selectedRowKeys)
+                this.selectedRowKeys = selectedRowKeys
             }
         }
     }

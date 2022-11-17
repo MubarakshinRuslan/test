@@ -18,6 +18,16 @@ export default{
                 message.error('Ошибка при добавлении новой должности!',5)
         }
         },
+        async EDIT_JOB({state},jobData){
+            try{
+                const ej = await axios.put(state.jobsUrl+'/'+jobData.id, jobData)
+                console.log(ej)
+                message.success('Изменения внесены!',5)
+                this.dispatch('GET_JOBS_FROM_API')
+            }catch(e){
+                message.error('Не удалось внести изменения!',5)
+                console.error(e)}
+        },
         async DELETE_JOB_FROM_API({state},rowId){
             this.dispatch('GET_JOBS_FROM_API')
             rowId.forEach(async (element)=> {try{

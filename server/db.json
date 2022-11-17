@@ -1,16 +1,5 @@
 {
-  "jobs": [
-    {
-      "job": "One",
-      "notes": "Ones",
-      "id": 1
-    },
-    {
-      "job": "MLM",
-      "notes": "mlmsad",
-      "id": 2
-    }
-  ],
+  "jobs": [],
   "jobCols": [
     {
       "title": "Должность",
@@ -19,6 +8,13 @@
     {
       "title": "Дополнительная информация",
       "dataIndex": "notes"
+    },
+    {
+      "title": "Действия",
+      "dataIndex": "actions",
+      "scopedSlots": {
+        "customRender": "actions"
+      }
     }
   ],
   "auth": [
@@ -66,14 +62,16 @@
     {
       "title": "Описание задачи",
       "dataIndex": "description"
-    }
-  ],
-  "jobList": [
+    },
     {
-      "name": "Новый сотрудник 0",
-      "id": 1
+      "title": "Действия",
+      "dataIndex": "actions",
+      "scopedSlots": {
+        "customRender": "actions"
+      }
     }
   ],
+  "jobList": [],
   "jobListCols": [
     {
       "title": "ФИО",
@@ -82,6 +80,13 @@
     {
       "title": "Должность",
       "dataIndex": "job"
+    },
+    {
+      "title": "Действия",
+      "dataIndex": "actions",
+      "scopedSlots": {
+        "customRender": "actions"
+      }
     }
   ]
 }

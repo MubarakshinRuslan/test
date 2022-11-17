@@ -152,11 +152,15 @@ export default{
                 this.dispatch('GET_TASKS_FROM_API')
             }
         },
-        async EDIT_TASK(){
+        async EDIT_TASK({state},task){
             try{
-                message.success('Задача успешно изменена')
+                const eu = await axios.put(state.tasksUrl+'/'+task.id, task)
+                console.log(eu)
+                message.success('Изменения внесены!',5)
+                this.dispatch('GET_TASKS_FROM_API')
             }catch(e){
-                message.error('Ошибка при изменении задачи')
+                message.error('Не удалось внести изменения!',5)
+                console.error(e)
             }
         },
         async DELETE_TASKS_FROM_API({state},rowId){

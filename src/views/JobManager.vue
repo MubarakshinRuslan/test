@@ -6,7 +6,7 @@
         <a-divider/>
         <div>
             <a-space size="small">
-                <app-new-job-drawer :item="{}"/>
+                <app-new-job-drawer ref="jobDrawer"/>
                 <a-button @click="deleteJob">Удалить должность</a-button>
             </a-space>
         </div>
@@ -19,7 +19,11 @@
             :columns="this.$store.getters.JOB_COLS"
             :row-selection="{onChange: onSelectChange}"
             >
-                    
+                <template slot="actions" slot-scope="text,record">
+                    <a @click="() => onEdit(record.id)">Изменить</a>
+                    <a-divider type="vertical"/>
+                    <a @click="() => deleteSingle(record.id)">Удалить</a>
+                </template>      
             </a-table>
         </div>
     </div>
@@ -44,6 +48,15 @@ Vue.component('app-new-job-drawer',AppNewJobDrawer)
             }
         },
         methods:{
+            async deleteSingle(key){
+                const keys = []
+                keys.push(key)
+                await this.$store.dispatch('DELETE_JOB_FROM_API',keys)
+                
+            },
+            onEdit(key){
+                this.$refs.jobDrawer.showDrawerEdit(key)
+            },
             async deleteJob(){
                 if(this.selectedRowKeys.length>0){
                     await this.$store.dispatch('DELETE_JOB_FROM_API',this.selectedRowKeys)

@@ -2,7 +2,7 @@
     <div>
       <a-button type="primary" @click="showDrawer"> <a-icon type="plus" /> Создать новую задачу </a-button>
       <a-drawer
-        title="Создать новую задачу"
+        :title="drawerTitle"
         :width="720"
         :visible="visible"
         :body-style="{ paddingBottom: '80px' }"
@@ -30,8 +30,10 @@
             <a-col :span="24">
               <a-form-item label="Даты начала и окончания">
                 <a-range-picker
+                separator	= "-"
                 @change="changeDate"                
                 :format="dateFormat"
+                :defaultValue="defaultValueDatePicker"
                 />
               </a-form-item>
             </a-col>
@@ -65,7 +67,7 @@
             Отменить
           </a-button>
           <a-button type="primary" @click="onSubmit">
-            Создать
+            {{this.submitButtonText}}
           </a-button>
         </div>
       </a-drawer>
@@ -80,6 +82,10 @@
   export default {
     data() {
       return {
+        defaultValueDatePicker: [moment(),moment()],
+        submitButtonText:'',
+        drawerTitle:'',
+        forEditKey:0,
         dateFormat: 'YYYY/MM/DD',
         dates: [],
         form: this.$form.createForm(this),
@@ -89,6 +95,7 @@
         name:"",
         user:"",
         description:"",
+        drawerIsEditor: "false"
       };
     },
     methods: {
@@ -98,16 +105,41 @@
         this.endDate=dateString[1]
       },
       showDrawer() {
+        this.drawerIsEditor = false
+        this.drawerTitle = 'Создать задачу'
+        this.submitButtonText='Создать задачу'
+
         this.visible = true;
         this.name='';
         this.user='';
         this.description='';
       },
+      showDrawerEdit(key){
+        this.forEditKey = key
+        this.drawerIsEditor = true
+        this.visible = true
+        this.drawerTitle = 'Редактирование задачи'
+        this.submitButtonText = 'Изменить задачу'
+        const data = [...this.$store.getters.TASKS]
+        console.log(data)
+        let id = data.findIndex(element => element.id === key)
+        this.description = data.at(id).description
+        this.startDate = data.at(id).startDate
+        this.endDate = data.at(id).endDate
+        this.name = data.at(id).name
+        this.user = data.at(id).user
+        let start = this.startDate.split("/").join("-")
+        let end = this.endDate.split('/').join('-')
+        console.log(start)
+        console.log(end)
+        this.defaultValueDatePicker=[moment(start),moment(end)]
+
+      },
       onClose() {
         this.visible = false;
       },
       async onSubmit() {
-        const newTask={
+        let newTask={
           name: this.name,
           user: this.$store.getters.GET_TASKPICKERNAME,
           description: this.description,
@@ -115,7 +147,20 @@
           endDate: this.endDate,
           tags: [],
         }
-        await this.$store.dispatch('ADD_NEWTASK',newTask)
+        if(this.drawerIsEditor){
+          try {
+            newTask.id=this.forEditKey
+            const et = await this.$store.dispatch('EDIT_TASK',newTask)
+            console.log(et)
+          } catch (error) {
+            console.error(error)
+          }
+        }else{
+          try {
+            const nt = await this.$store.dispatch('ADD_NEWTASK',newTask)
+            console.log(nt)
+          }catch(e){console.log(e)}
+        }
         this.visible = false
       }
     },

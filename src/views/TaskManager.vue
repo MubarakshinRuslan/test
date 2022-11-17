@@ -7,7 +7,7 @@
         <a-divider/>
         <div>
             <a-space size="small">
-                <app-new-task-drawer/>
+                <app-new-task-drawer ref="taskDrawer"/>
                 <a-button @click="completeTask">Сделать отмеченные задачи выполненными</a-button>
                 <a-button @click="deleteTask">Удалить задачу</a-button>
             </a-space>
@@ -20,18 +20,25 @@
             :data-source="this.$store.getters.TASKS"
             :columns="this.$store.getters.TASK_COLS"
             :row-selection="{selectedRowKeys:selectedRowKeys, onChange: onSelectChange}"
-            >
-                <span slot="tags" slot-scope="tags">
-                    <a-space size="small">
-                        <a-tag
-                        v-for="tag in tags"
-                        :key="tag"
-                        :color="tag==='Просрочено' ? 'volcano' : 'green'"
-                        >
-                            {{tag.toUpperCase()}}
-                        </a-tag>
-                    </a-space>
-                </span>
+            >   
+                <template slot="tags" slot-scope="tags">
+                    <span>
+                        <a-space size="small">
+                            <a-tag
+                            v-for="tag in tags"
+                            :key="tag"
+                            :color="tag==='Просрочено' ? 'volcano' : 'green'"
+                            >
+                                {{tag.toUpperCase()}}
+                            </a-tag>
+                        </a-space>
+                    </span>
+                </template>                
+                <template slot="actions" slot-scope="text,record">
+                        <a @click="() => onEdit(record.id)">Изменить</a>
+                        <a-divider type="vertical"/>
+                        <a @click="() => deleteSingle(record.id)">Удалить</a>
+                </template>
             </a-table>
         </div>
     </div>
@@ -57,6 +64,14 @@ export default{
             },
         },
         methods:{
+            onEdit(key){
+                this.$refs.taskDrawer.showDrawerEdit(key)
+            },
+            async deleteSingle(key){
+                const keys = []
+                keys.push(key)
+                await this.$store.dispatch('DELETE_TASKS_FROM_API',keys)
+            },
             async completeTask(){
                 if(this.selectedRowKeys.length>0){
                     await this.$store.dispatch('MAKE_TASKS_COMPLETED',this.selectedRowKeys)
@@ -72,8 +87,6 @@ export default{
             onSelectChange(selectedRowKeys){
                 this.selectedRowKeys=selectedRowKeys
             }
-        },
-        mounted() {
         }
     }
 

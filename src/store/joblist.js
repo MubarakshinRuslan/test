@@ -12,6 +12,9 @@ export default{
         userUrl: 'http://localhost:3200/joblist',
     },
     mutations:{
+        SET_JOBLIST_FROM_COMPONENT: (state, data) =>{
+            state.jobList = data
+        },
         SET_JOBLISTEDIT: (state) =>{
             state.jobListEdit = state.selectedJobListRows.length < 0 ? true : false
         },
@@ -32,6 +35,22 @@ export default{
         }
     },
     actions:{
+        async EDIT_USER_IN_API({state},userdata){
+            try{
+                const eu = await axios.put(state.userUrl+'/'+userdata.id, userdata)
+                console.log(eu)
+                message.success('Изменения внесены!',5)
+                this.dispatch('GET_JOBLIST_FROM_API')
+            }catch(e){
+                message.error('Не удалось внести изменения!',5)
+                console.error(e)
+            }
+        },
+        async SET_JLIST_FROM_COMP({commit},data){
+            console.log('setlist async:')
+            console.log(data)
+            commit('SET_JOBLIST_FROM_COMPONENT',data)
+        },
         async SET_SELJOBLISTROWS({commit},rows){
             commit('SET_SELECTEDJOBLISTROWS',rows)
         },
