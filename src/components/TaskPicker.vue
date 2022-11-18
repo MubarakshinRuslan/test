@@ -1,7 +1,7 @@
 <template>
     <a-select 
     show-search
-    default-value=""
+    :default-value="defaultValueTask"
     v-model="name"
     @select="syncWithState"
     >
@@ -30,8 +30,16 @@
         render: (h, ctx) => ctx.props.vnodes,
       },
     },
-    data: () => ({ name: '' }),
+    data(){
+      return{
+        defaultValueTask:'',
+        name:''
+      }
+    },
     methods: {
+      changeTaskValue(value){
+        this.defaultValueTask=value
+      },
       async syncWithState(){
         try {
           const sws = await this.$store.dispatch('SET_TASKPICKER_NAME',this.name)

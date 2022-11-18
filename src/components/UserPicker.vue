@@ -1,7 +1,7 @@
 <template>
     <a-select 
     show-search
-    default-value="" 
+    :default-value="defaultUserTask" 
     v-model="job" 
     @select="syncWithState">
         <div slot="dropdownRender" slot-scope="menu">
@@ -29,8 +29,16 @@
                 render: (h, ctx) => ctx.props.vnodes,
             },
         },
-        data: () => ({ job: '' }),
+        data(){ 
+            return{
+                job: '',
+                defaultUserTask:''
+            }
+        },
         methods: {
+            changeUserValue(value){
+                this.defaultUserTask=value
+            },
             async syncWithState(){
                 try {
                     const sws = await this.$store.dispatch('SET_USERPICKER_NAME',this.job)

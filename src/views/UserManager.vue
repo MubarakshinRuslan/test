@@ -10,7 +10,7 @@
                 <app-new-user-drawer 
                 ref="userDrawer"
                 />
-                <a-button @click="deleteUser">Удалить пользователя</a-button>
+                <!-- <a-button @click="deleteUser">Удалить пользователя</a-button> -->
             </a-space> 
         </div>
         <a-divider />
@@ -26,7 +26,7 @@
                 <template slot="actions" slot-scope="text,record">
                         <a @click="() => onEdit(record.id)">Изменить</a>
                         <a-divider type="vertical"/>
-                        <a @click="() => deleteSingle(record.id)">Удалить</a>
+                        <a @click="() => deleteSingle(record)">Удалить</a>
                 </template>
             </a-table>
         </div>
@@ -52,10 +52,18 @@ export default{
             onEdit(key){
                 this.$refs.userDrawer.showDrawerEdit(key)
             },
-            async deleteSingle(key){
-                const keys = []
-                keys.push(key)
-                await this.$store.dispatch('DELETE_JOBLIST_FROM_API',keys)
+            async deleteSingle(userObject){
+                const tasks = [...this.$store.getters.TASKS]
+                const filtered = tasks.filter(item => {
+                    return item.user === userObject.name
+                })
+                if (filtered.length) {
+                    message.error('Невозможно удалить пользователя, так как он привязан к задаче!',5)
+                } else {
+                    const keys = []
+                    keys.push(userObject.id)
+                    await this.$store.dispatch('DELETE_JOBLIST_FROM_API',keys)
+                }
             },
             async deleteUser(){
                 if(this.selectedRowKeys.length>0){

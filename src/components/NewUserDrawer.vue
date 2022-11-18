@@ -39,7 +39,7 @@
       <a-row :gutter="16">
         <a-col :span="24">
           <a-form-item label="Выберите должность">
-            <app-user-picker/>
+            <app-user-picker ref="userPicker"/>
           </a-form-item>
         </a-col>
       </a-row>
@@ -100,6 +100,7 @@
         visible: false,
         isVisible: false,
         user: undefined,
+        job: ''
       }
     },
     methods: {
@@ -127,7 +128,8 @@
         this.lastName = data.at(id).lastName
         this.patronym = data.at(id).patronym
         this.description = data.at(id).description
-
+        //this.job = data.at(id).job
+        //this.$refs.userPicker.changeUserValue(this.job)
       },
       openDrawer() {
         this.isVisible = !this.isVisible

@@ -24,7 +24,7 @@ Vue.component('app-header-bar', HeaderBar)
       await this.$store.dispatch('GET_JOBLIST_FROM_API')
       await this.$store.dispatch('GET_JOBLISTCOLS_FROM_API')
       await this.$store.dispatch('UPDATE_TASK')
-      await this.$store.dispatch('UPDATE_IFSTARTED')    
+      await this.$store.dispatch('UPDATE_IFSTARTED')
     },
     data(){
       {

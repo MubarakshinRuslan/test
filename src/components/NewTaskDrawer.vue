@@ -22,7 +22,7 @@
           <a-row :gutter="16">
             <a-col :span="24">
               <a-form-item label="Исполнитель">
-                <app-task-picker/>
+                <app-task-picker ref="taskPicker"/>
               </a-form-item>
             </a-col>
           </a-row>
@@ -105,6 +105,8 @@
         this.endDate=dateString[1]
       },
       showDrawer() {
+        //const newSet=""
+        //this.$refs.taskPicker.changeTaskValue(newSet)
         this.drawerIsEditor = false
         this.drawerTitle = 'Создать задачу'
         this.submitButtonText='Создать задачу'
@@ -127,7 +129,8 @@
         this.startDate = data.at(id).startDate
         this.endDate = data.at(id).endDate
         this.name = data.at(id).name
-        this.user = data.at(id).user
+        //this.user = data.at(id).user
+        //this.$refs.taskPicker.changeTaskValue(this.user)
         let start = this.startDate.split("/").join("-")
         let end = this.endDate.split('/').join('-')
         console.log(start)

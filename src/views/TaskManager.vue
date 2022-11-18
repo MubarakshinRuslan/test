@@ -9,7 +9,7 @@
             <a-space size="small">
                 <app-new-task-drawer ref="taskDrawer"/>
                 <a-button @click="completeTask">Сделать отмеченные задачи выполненными</a-button>
-                <a-button @click="deleteTask">Удалить задачу</a-button>
+                <!-- <a-button @click="deleteTask">Удалить задачу</a-button> -->
             </a-space>
         </div>
         <a-divider/>
@@ -67,7 +67,7 @@ export default{
             onEdit(key){
                 this.$refs.taskDrawer.showDrawerEdit(key)
             },
-            async deleteSingle(key){
+            async deleteSingle(key){              
                 const keys = []
                 keys.push(key)
                 await this.$store.dispatch('DELETE_TASKS_FROM_API',keys)

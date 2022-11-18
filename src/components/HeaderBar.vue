@@ -24,9 +24,12 @@
 <script>
 
 export default{
+    props:{
+        selectedKey:Number
+    },
     data(){
         return{
-            n: ['1']
+            n: this.selectedKey
         }
     }
 }
