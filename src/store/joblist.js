@@ -9,7 +9,7 @@ export default{
         newJobCounter:'',
         jobList: [],
         jobListCols: [],
-        userUrl: 'http://localhost:3200/joblist',
+        userUrl: 'http://192.168.1.131:3200/jobList',
     },
     mutations:{
         SET_JOBLIST_FROM_COMPONENT: (state, data) =>{
@@ -84,7 +84,7 @@ export default{
         })},
         async GET_JOBLIST_FROM_API({commit}){
             try{
-                const jobList = await axios('http://localhost:3200/joblist',{
+                const jobList = await axios('http://192.168.1.131:3200/jobList',{
                     method: "GET"
                 })
                 message.success('Данные таблицы пользователей загружены!')
@@ -98,7 +98,7 @@ export default{
         },
         async GET_JOBLISTCOLS_FROM_API({commit}){
             try{
-                const jobListCols = await axios('http://localhost:3200/joblistcols',{
+                const jobListCols = await axios('http://192.168.1.131:3200/jobListCols',{
                     method: "GET"
                 })
                 message.success('Таблица пользователей загружена!')

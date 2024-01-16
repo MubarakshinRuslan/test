@@ -8,7 +8,7 @@ export default{
         taskPickerName:'',
         tasks:[],
         tasksColumns:[],
-        tasksUrl: 'http://localhost:3200/tasks',
+        tasksUrl: 'http://192.168.1.131:3200/tasks',
         tasksForUpdate:[],
         tasksIsLoaded: false,
         tasksNeedToUpdate: false,
@@ -177,7 +177,7 @@ export default{
         },
         async GET_TASKS_FROM_API({commit}){
             try {
-                const tasks = await axios('http://localhost:3200/tasks', {
+                const tasks = await axios('http://192.168.1.131:3200/tasks', {
                     method: "GET"
                 })
                 message.success('Данные таблицы задач загружены!')
@@ -191,7 +191,7 @@ export default{
         },
         async GET_TASK_COLUMNS_FROM_API({commit}){
             try {
-                const tasksColumns = await axios('http://localhost:3200/tasksColumns', {
+                const tasksColumns = await axios('http://192.168.1.131:3200/tasksColumns', {
                     method: "GET"
                 })
                 message.success('Таблица задач загружена!')

@@ -5,7 +5,7 @@ export default{
     state:{
         jobs:[],
         jobCols:[],
-        jobsUrl: 'http://localhost:3200/jobs'
+        jobsUrl: 'http://192.168.1.131:3200/jobs'
     },
     actions:{
         async ADD_NEWJOB({state},job){
@@ -42,7 +42,7 @@ export default{
         },
         async GET_JOBS_FROM_API({commit}){
             try{
-                const jobs = await axios('http://localhost:3200/jobs',{
+                const jobs = await axios('http://192.168.1.131:3200/jobs',{
                     method: "GET"
                 })
                 message.success('Данные таблицы должностей загружены!')
@@ -56,7 +56,7 @@ export default{
         },
         async GET_JOB_COLS_FROM_API({commit}){
             try{
-                const jobCols = await axios('http://localhost:3200/jobcols',{
+                const jobCols = await axios('http://192.168.1.131:3200/jobCols',{
                     method: "GET"
                 })
                 message.success('Таблица должностей загружена!')
